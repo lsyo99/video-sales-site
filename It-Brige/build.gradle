@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5'
+
+}
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+repositories {
+    mavenCentral()
+}
+
+
+// 부모 모듈은 소스코드가 없을 예정이기에 jar로 패키징 안하기 위해서
+bootJar{
+    enabled = false
+}
+jar{
+    enabled = false
+}

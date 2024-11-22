@@ -1,0 +1,47 @@
+[
+  {
+    "rank": 1,
+    "title": "테디노트의 RAG 비법노트",
+    "category": "딥러닝",
+    "price": 275200,
+    "likes": 3310,
+    "tags": ["BEST", "FC AWARD"],
+    "image": "https://via.placeholder.com/220x150"
+  },
+  {
+    "rank": 2,
+    "title": "ComfyUI 이미지/영상 제작",
+    "category": "딥러닝",
+    "price": 400000,
+    "likes": 1590,
+    "tags": ["BEST", "FC AWARD"],
+    "image": "https://via.placeholder.com/220x150"
+  },
+  {
+    "rank": 3,
+    "title": "하이퍼리얼리티 인물 제작",
+    "category": "딥러닝",
+    "price": 353000,
+    "likes": 570,
+    "tags": ["BEST", "NEW", "온라인"],
+    "image": "https://via.placeholder.com/220x150"
+  },
+  {
+    "rank": 4,
+    "title": "권오상의 금융 아카데미",
+    "category": "재무/회계/세무",
+    "price": 304500,
+    "likes": 2930,
+    "tags": ["BEST", "온라인"],
+    "image": "https://via.placeholder.com/220x150"
+  },
+  {
+    "rank": 5,
+    "title": "LangGraph로 끝내는 멀티 AI Agent",
+    "category": "딥러닝",
+    "price": 283500,
+    "likes": 1030,
+    "tags": ["BEST"],
+    "image": "https://via.placeholder.com/220x150"
+  }
+]
