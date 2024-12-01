@@ -29,12 +29,12 @@ export function renderHeader() {
 
     // 첫 번째 줄: 검색 및 계정 링크
     const firstRow = document.createElement('div');
-    firstRow.classList.add('first-row');// TODO 로그인, 고객센터로 변경 // TODO serch되게 변경
+    firstRow.classList.add('first-row');
     firstRow.innerHTML = `
         <button class="category-btn">☰ 카테고리</button>
         <input type="text" class="search-input" placeholder="내게 필요한 강의를 찾아보세요!" id="searchInput">
         <div class="account-links">
-            <a href="javascript:void(0);" onclick="navigateTo('login')">로그인</a> //
+            <a href="javascript:void(0);" onclick="navigateTo('login')">로그인</a>
             <a href="javascript:void(0);" onclick="navigateTo('support')">고객센터</a>
         </div>
     `;
@@ -42,7 +42,7 @@ export function renderHeader() {
 
     // 두 번째 줄: 네비게이션 링크들
     const secondRow = document.createElement('div');
-    secondRow.classList.add('second-row'); // TODO 링크 변경
+    secondRow.classList.add('second-row');
     secondRow.innerHTML = `
         <nav class="nav-links">
             <a href="javascript:void(0);" onclick="navigateTo('notice')">[공지]</a>
@@ -76,7 +76,7 @@ export function renderHeader() {
     addMenuItems(mainMenu);
 }
 // addMenuItems 함수 (header.js 내에 위치)
-function addMenuItems(mainMenu) { // TODO 링크 변경
+function addMenuItems(mainMenu) {
     // 메뉴 항목과 하위 메뉴 추가 로직
     const menuItems = [
         { 

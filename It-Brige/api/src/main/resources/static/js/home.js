@@ -1,48 +1,34 @@
 import { loadCSS } from "../util/loadCSS.js";
+import { navigateTo } from "./router.js"; // 라우터를 가져옴
 
 // JSON 데이터 로드 함수
 export async function fetchCourses() {
-    const response = await fetch('/json/courses.json');  //TODO 나중에 경로만 API로 변경
+    const response = await fetch('/json/courses.json');
     if (!response.ok) {
         throw new Error('Failed to fetch courses');
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 // 이미지 데이터를 가져오는 함수
 async function fetchImages() {
     try {
-        const response = await fetch('/json/imagehome.json'); // TODO API에서 이미지 데이터 가져오기
+        const response = await fetch('/json/imagehome.json');  //5초
         if (!response.ok) {
             throw new Error('Failed to fetch images');
         }
         const images = await response.json();
 
-        // img-List 컨테이너 가져오기
         const imgList = document.getElementById('img-List');
         if (!imgList) {
             console.error("Element with ID 'img-List' not found.");
             return;
         }
 
-        imgList.innerHTML = ''; // 기존 콘텐츠 제거
-
-        // 이미지 데이터 렌더링
-        images.forEach(({ id, url }) => {
-            const imgItem = document.createElement('div');
-            imgItem.classList.add('promo-item'); // 클래스는 동일하게 사용
-            imgItem.style.backgroundImage = `url('${url}')`;
-
-            // 이미지에 클릭 이벤트 추가
-            const link = document.createElement('a');
-            link.href = `/image/${id}`; // 클릭 시 이동할 링크
-            link.target = '_blank'; // 새 탭에서 열기
-            link.textContent = ''; // 텍스트 비우기 (링크만 적용)
-
-            imgItem.appendChild(link);
-            imgList.appendChild(imgItem);
-        });
+        imgList.innerHTML = images.map(({ id, url }) => `
+            <div class="promo-item" style="background-image: url('${url}');" onclick="navigateTo('/image/${id}')">
+            </div>
+        `).join('');
     } catch (error) {
         console.error('Error fetching images:', error);
     }
@@ -60,25 +46,28 @@ export function renderHomePage() {
 
     main.innerHTML = `
         <section class="home container">
-            <h2>실시간 BEST 인기 강의</h2>
-            <p>가장 많은 수강생이 주목하는 TOP 5 강의를 만나보세요.</p>
-            <div class="category-buttons">
-                <button class="category-btn" data-category="전체">전체</button>
-                <button class="category-btn" data-category="딜러닝">딥러닝</button>
-                <button class="category-btn" data-category="재무/회계/세무">재무/회계/세무</button>
+            <div class="borad-container">
+                <h5>best</h5>
+                <h2>실시간 BEST 인기 강의</h2>
+                <p>가장 많은 수강생이 주목하는 TOP 5 강의를 만나보세요.</p>
+                <div class="category-buttons">
+                    <button class="category-btn" data-category="전체">전체</button>
+                    <button class="category-btn" data-category="딥러닝">딥러닝</button>
+                    <button class="category-btn" data-category="재무/회계/세무">재무/회계/세무</button>
+                </div>
+                <div class="course-list-container">
+                    <div id="course-list" class="course-list"></div>
+                </div>
+                <div class="img-list-container">
+                    <div id="img-List" class="img-List"></div>
+                </div>
             </div>
-            <div class = "course-list-container">
-            <div id="course-list" class="course-list"></div></div>
-            <div class = "img-list-container">
-            <div id="img-List" class="img-List"></div></div> <!-- img-List로 통합 -->
         </section>
     `;
 
-    // 강의 데이터를 로드 및 렌더링
     fetchCourses().then(courses => {
         renderCourses(courses);
 
-        // 카테고리 필터 버튼 이벤트 추가
         document.querySelectorAll('.category-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const category = button.getAttribute('data-category');
@@ -92,7 +81,6 @@ export function renderHomePage() {
         console.error('Error fetching courses:', error);
     });
 
-    // 이미지 데이터를 로드 및 렌더링
     fetchImages();
 }
 
@@ -104,22 +92,22 @@ function renderCourses(courses) {
         return;
     }
 
-    courseList.innerHTML = ''; // 기존 강의 목록 초기화
-
-    courses.forEach(course => {
-        const courseCard = document.createElement('div');
-        courseCard.classList.add('course-card');
-        courseCard.innerHTML = `
+    courseList.innerHTML = courses.map(course => `
+        <div class="course-card" onclick="navigateTo('/course/${course.id}')">
             <div class="course-rank">${course.rank}위</div>
             <img src="${course.image}" alt="${course.title}" class="course-image">
             <div class="course-info">
                 <h3 class="course-title">${course.title}</h3>
-                <p class="course-category">${course.category}</p>
-                <p class="course-price">최저가 ${course.price.toLocaleString()}원~</p>
-                <p class="course-likes">${course.likes} ♥</p>
-                <div class="course-tags">${course.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                <p class="course-category">${course.category || "카테고리 없음"}</p>
+                <div class="price-container">
+                    <p class="course-sale">${course.sale || "할인 없음"}</p>
+                    <p class="course-price">최저가 ${course.price ? course.price.toLocaleString() + "원~" : "정보 없음"}</p>
+                </div>
+                <p class="course-likes">${course.likes || 0} ♥</p>
+                <div class="course-tags">
+                    ${course.tags ? course.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : "태그 없음"}
+                </div>
             </div>
-        `;
-        courseList.appendChild(courseCard);
-    });
+        </div>
+    `).join('');
 }

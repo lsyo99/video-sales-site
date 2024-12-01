@@ -1,19 +1,27 @@
 /* 홈 섹션 제목과 설명 */
 
+.borad-container {
+    max-width: 1000px; /* 최대 너비 설정 */
+    margin: 80px auto; /* 가운데 정렬 */
+    padding: 0 20px; /* 좌우 패딩 */
+    padding-top: 110px;
+}
+
+/* 홈 섹션 제목과 설명 */
+.home h5 {
+    color: #ff0000;
+    text-align: left; /* 왼쪽 정렬 */
+    margin: 0 0 10px 0; /* 아래 여백만 추가 */
+}
+
 .home h2 {
     font-size: 24px;
     font-weight: bold;
     color: #222;
-    text-align: center;
-    margin: 20px 0 10px;
+    text-align: left; /* 왼쪽 정렬 */
+    margin: 0 0 10px 0; /* 아래 여백만 추가 */
 }
 
-.home p {
-    text-align: center;
-    font-size: 14px;
-    color: #f9f9f9;
-    margin-bottom: 20px;
-}
 
 /* 카테고리 버튼 스타일 */
 .category-buttons {
@@ -40,106 +48,114 @@
     color: #fff;
 }
 
+/* 강의 리스트 컨테이너 */
 .course-list-container {
-    display: flex; /* Flexbox를 사용 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    /*align-items: center;*/ /* 수직 중앙 정렬 */
-    /*min-height: 100vh*/; /* 화면 전체 높이 사용 */
+    display: flex;
+    justify-content: center;
     margin: 0 auto; /* 수평 중앙 */
 }
 
 /* 강의 리스트 스타일 */
 .course-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0px;
+    display: flex; /* Flexbox로 변경 */
+    justify-content: flex-start; /* 강의 카드들을 왼쪽 정렬 */
+    gap: 16px; /* 카드 간 간격 설정 */
     padding: 0px;
-    max-width: 1000px;
-    margin: 0;
+    overflow-x: auto; /* 가로 스크롤 활성화 */
 }
 
 /* 강의 카드 스타일 */
 .course-card {
-    width: 160px;
-    height : 250px;
+    flex: 0 0 auto; /* Flexbox로 인해 카드 크기 고정 */
+    width: 180px; /* 카드 너비 */
+    height: auto;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
-.course-card:hover {
+/* .course-card:hover {
     transform: translateY(-5px);
-}
+} */
 
 /* 썸네일 이미지 */
 .course-image {
     width: 100%;
-    height: 120px;
+    height: 120px; /* 이미지 크기 조정 */
     object-fit: cover;
 }
-
+.course-card:hover .course-image {
+    transform: scale(1.1); /* hover 시 이미지 확대 */
+}
 /* 강의 카드 하단 내용 */
 .course-info {
-    padding: 10px;
+    display: table; /* 테이블 레이아웃 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin: 0 auto; /* 수평 중앙 정렬 */
+    padding: 0; /* 내부 여백 제거 */
+}
+.course-info > * {
+    display: table-row; /* 자식 요소를 각 행으로 설정 */
+}
+
+.course-category {
+    font-size: 5px; /* 글자 크기 조정 */
+    color: #999; /* 약간 연한 색 */
+    text-align: center;
+    /* margin:  0; 위아래 최소 간격 */
+}
+
+.price-container {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border-top: 1px solid #f0f0f0;
+    justify-content: center;
+    gap: 2px; /* 요소 간 간격 최소화 */
 }
 
-/* 순위 표시 */
-.course-rank {
-    font-size: 10px;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 4px;
-}
-
-/* 강의 제목 */
-.course-title {
+.course-sale {
     font-size: 14px;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 4px;
+    color: #e74c3c; /* SALE 강조 색상 */
+    text-decoration: line-through; /* 취소선 */
+    margin: 0; /* 공백 제거 */
 }
 
-/* 카테고리 텍스트 */
-.course-category {
-    font-size: 10px;
-    color: #666;
-}
-
-/* 가격과 좋아요 */
 .course-price {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
-    color: #e74c3c;
-    margin-top: 4px;
+    color: #27ae60; /* PRICE 강조 색상 */
+    margin: 0; /* 공백 제거 */
 }
 
+/* 좋아요 텍스트 */
 .course-likes {
-    font-size: 10px;
-    color: #888;
-    margin-top: 2px;
+    font-size: 12px; /* 중간 크기 */
+    color: #000000;
+    text-align: center; /* 가운데 정렬 */
+    margin: 2px 0; /* 위아래 간격 최소화 */
 }
 
-/* 강의 카드 태그 스타일 */
+/* 태그 스타일 */
 .course-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 2px;
-    margin-top: 8px;
+    gap: 1px; /* 태그 간 간격 최소화 */
+    justify-content: center; /* 가운데 정렬 */
+    margin: 2px 0; /* 위아래 간격 최소화 */
 }
 
 .tag {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     border-radius: 12px;
-    font-size: 8px;
-    padding: 3px 6px;
-    color: #333;
+    font-size: 10px; /* 글자 크기 조정 */
+    padding: 3px 6px; /* 태그 내부 패딩 최소화 */
+    color: #000000; /* 어두운 색상 */
+    text-align: center;
 }
+
 /* 이미지  */
 /* 전체 섹션 스타일 */
 

@@ -1,0 +1,79 @@
+[
+    {
+        "id": "1",
+        "url": "/images/example1.jpg",
+        "pageId": "1",
+        "title": "Image 1",
+        "description": "This is the first image."
+    },
+    {
+        "id": "2",
+        "url": "/images/example2.jpg",
+        "pageId": "1",
+        "title": "Image 2",
+        "description": "This is the second image."
+    },
+    {
+        "id": "3",
+        "url": "/images/example3.jpg",
+        "pageId": "1",
+        "title": "Image 3",
+        "description": "This is the third image."
+    },
+    {
+        "id": "4",
+        "url": "/images/example4.jpg",
+        "pageId": "1",
+        "title": "Image 4",
+        "description": "This is the fourth image."
+    },
+    {
+        "id": "5",
+        "url": "/images/example5.jpg",
+        "pageId": "2",
+        "title": "Image 5",
+        "description": "This is the fifth image."
+    },
+    {
+        "id": "6",
+        "url": "/images/example6.jpg",
+        "pageId": "2",
+        "title": "Image 6",
+        "description": "This is the sixth image."
+    },
+    {
+        "id": "7",
+        "url": "/images/example7.jpg",
+        "pageId": "2",
+        "title": "Image 7",
+        "description": "This is the seventh image."
+    },
+    {
+        "id": "8",
+        "url": "/images/example8.jpg",
+        "pageId": "3",
+        "title": "Image 8",
+        "description": "This is the eighth image."
+    },
+    {
+        "id": "9",
+        "url": "/images/example9.jpg",
+        "pageId": "3",
+        "title": "Image 9",
+        "description": "This is the ninth image."
+    },
+    {
+        "id": "10",
+        "url": "/images/example10.jpg",
+        "pageId": "3",
+        "title": "Image 10",
+        "description": "This is the tenth image."
+    },
+    {
+        "id": "11",
+        "url": "/images/example11.jpg",
+        "pageId": "3",
+        "title": "Image 11",
+        "description": "This is the eleventh image."
+    }
+]
