@@ -1,35 +1,35 @@
-version: '3.8'
-
-services:
-  db:
-    build:
-      context: ./db
-    container_name: itbridge_mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root123!
-      MYSQL_DATABASE: ItBridge
-#      MYSQL_USER: root
-      MYSQL_PASSWORD: root123!
-    ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-
-  api:
-    build:
-      context: .
-      dockerfile: ./api/Dockerfile
-    container_name: itbridge_api
-    depends_on:
-      - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/ItBridge
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root123!
-    ports:
-      - "8080:8080"
-
-volumes:
-  db_data:
+#version: '3.8'
+#
+#services:
+#  db:
+#    build:
+#      context: ./db
+#    container_name: itbridge_mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root123!
+#      MYSQL_DATABASE: ItBridge
+##      MYSQL_USER: root
+#      MYSQL_PASSWORD: root123!
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - db_data:/var/lib/mysql
+#      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+#
+#  api:
+#    build:
+#      context: .
+#      dockerfile: ./api/Dockerfile
+#    container_name: itbridge_api
+#    depends_on:
+#      - db
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/ItBridge
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root123!
+#    ports:
+#      - "8080:8080"
+#
+#volumes:
+#  db_data:

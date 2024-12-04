@@ -1,16 +1,18 @@
 import { renderHomePage } from './home.js';
 import { renderHeader } from './header.js';
 import { renderImageDetailPage } from './imageDetails.js';
-
+import { renderLoginPage } from './login.js';
+import { logout } from './header.js'; // 로그아웃 함수 import
 
 // 라우팅 테이블 설정
 const routes = {
     '/': renderHomePage,
     '/image/:id': renderImageDetailPage,
+    '/login': renderLoginPage,
+
 };
 
 // URL에서 동적 매개변수 추출
-// routeRarts와 pathParts 배열을 비교해 : 로 시작하는 부분 키로 추출 -> id값 받기 위해
 function extractParams(route, path) {
     const routeParts = route.split('/');
     const pathParts = path.split('/');
@@ -27,38 +29,66 @@ function extractParams(route, path) {
 }
 
 // 현재 URL에 맞는 라우트를 찾고 렌더링
-// 경로 일치 확인 후 랜더링
 function handleRoute() {
-    // 항상 헤더를 먼저 렌더링
+    const path = location.pathname;
+
+    // 항상 헤더를 렌더링
     renderHeader();
 
-    const path = location.pathname;
-    //
+    // 로그인 페이지에서는 헤더를 숨김
+    const header = document.querySelector('header');
+    if (path === '/login') {
+        if (header) {
+            header.style.display = 'none';
+        }
+        renderLoginPage();
+        return;
+    }
+
+    // 다른 페이지에서는 헤더를 표시
+    if (header) {
+        header.style.display = 'block';
+    }
+
+    // 라우트 매칭 및 렌더링
     for (const route in routes) {
-        const isMatch = route.split('/').length === path.split('/').length &&
-                        route.split('/').every((part, index) =>
-                            part.startsWith(':') || part === path.split('/')[index]);
+        const isMatch =
+            route.split('/').length === path.split('/').length &&
+            route.split('/').every(
+                (part, index) =>
+                    part.startsWith(':') || part === path.split('/')[index]
+            );
 
         if (isMatch) {
             const params = extractParams(route, path);
-            routes[route](params); // 해당 라우트의 렌더링 함수 호출
+            routes[route](params);
             return;
         }
     }
 
     // 404 처리 (라우트가 없는 경우)
-    document.getElementById('main').innerHTML = '<h2>404: Page Not Found</h2>';
+    const main = document.getElementById('main');
+    if (main) {
+        main.innerHTML = '<h2>404: Page Not Found</h2>';
+    }
 }
 
-// 브라우저 히스토리 API 사용 -> 앞 뒤로가기
+// 브라우저 히스토리 API 사용 -> 앞/뒤로 가기 이벤트 처리
 window.addEventListener('popstate', handleRoute);
 
 // URL 변경 시 라우터 작동 함수
-//-> pushStatus사용해url이동
 export function navigateTo(url) {
-    history.pushState(null, '', url);
-    handleRoute();
+    console.log(`Navigating to: ${url}`); // 디버깅 로그 추가
+    if (url === '/logout') {
+        logout(); // 로그아웃 라우트 처리
+    } else {
+        history.pushState(null, '', url);
+        handleRoute();
+    }
 }
+
+// 전역 객체에 navigateTo 등록
+window.navigateTo = navigateTo;
 
 // 초기화 함수: 앱 시작 시 실행
 function init() {

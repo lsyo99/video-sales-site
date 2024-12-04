@@ -15,5 +15,6 @@ public class TokenResponse {
     private LocalDateTime accessTokenExpiredAt;
     private String refreshToken;
     private LocalDateTime refreshTokenExpiredAt;
+    private String username;
 
 }

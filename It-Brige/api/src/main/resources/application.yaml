@@ -10,17 +10,17 @@ spring:
     level:
       root: DEBUG
   datasource:
-    url: jdbc:mysql://db:3307/ItBridge?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/ItBridge?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root123!
 
-#token:
-#  secret:
-#    key: SpringBootJWTHelperTokenSecretKeyValue123!@
-#  access-token:
-#    plus-hour: 1
-#  refresh-token:
-#    plus-hour: 12
+token:
+  secret:
+    key: SpringBootJWTHelperTokenSecretKeyValue123!@
+  access-token:
+    plus-hour: 1
+  refresh-token:
+    plus-hour: 12
 
 

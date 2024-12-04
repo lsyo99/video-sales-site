@@ -5,45 +5,59 @@ plugins {
 
 }
 
+
 group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = '21' // Java 21
 }
+
+repositories {
+    mavenCentral() // 의존성 다운로드 위치
+}
+
+dependencies {
+    implementation project(':db')
+    // Lombok (코드 간소화)
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+
+    // Spring Boot Starter (필수)
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Spring MVC
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA (Hibernate 포함)
+    implementation 'org.springframework.boot:spring-boot-starter-validation' // 유효성 검증
+    implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security
+
+    // SpringDoc OpenAPI (Swagger UI)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    // JWT (JSON Web Token) for authentication
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // H2 Database (테스트용)
+//    runtimeOnly 'com.h2database:h2'
+
+    // MySQL Driver
+//    runtimeOnly 'mysql:mysql-connector-java'
+
+    // Spring Boot Test (테스트 지원)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트용
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
-repositories {
-    mavenCentral()
+
+tasks.named('test') {
+    useJUnitPlatform() // JUnit5
 }
 
-dependencies {
-    implementation project(':db')
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    //    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
-    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
-    //jwt
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-
-    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
-}
-
-test {
-    useJUnitPlatform()
-}
 bootJar {
-    enabled = true
+    enabled = true // Spring Boot 애플리케이션으로 JAR 생성
 }
