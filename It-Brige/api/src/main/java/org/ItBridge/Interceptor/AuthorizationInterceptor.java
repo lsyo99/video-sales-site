@@ -37,6 +37,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
+
 //        //header 검증
         var accessToken = request.getHeader("authorization-token");
 //
@@ -50,11 +51,34 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
             return true;
         }
+//refreshtoken
+        var refreshToken = request.getHeader("refresh-token");
+        if (refreshToken != null) {
+            var userid = tokenBusiness.validationToken(refreshToken); // Long 타입 반환
+            if (userid != null) {
+                // 리프레시 토큰이 유효하면 새로운 액세스 토큰 발급
+                var newAccessTokenResponse = tokenBusiness.reissueToken(userid);
+                var newAccessToken = newAccessTokenResponse.getAccessToken();
+
+                // 새로운 액세스 토큰을 응답 헤더에 추가
+                response.setHeader("new-authorization-token", newAccessToken);
+
+                // 사용자 정보를 요청 컨텍스트에 추가
+                var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
+                requestContext.setAttribute("userId", userid, RequestAttributes.SCOPE_REQUEST);
+
+                return true;
+            }
+        }
 //
         throw new ApiException(ErrorCode.BAD_REQUST, "인증 실패");
 ////        return false; //인증 실패
 //        return true;
 //        //TODO 만료된 토큰 발행시 토큰 재발행(login중에만 )
 //        //TODO}
+    }
+    private void setUserIdInContext(Long userId) {
+        var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
+        requestContext.setAttribute("userId", userId, RequestAttributes.SCOPE_REQUEST);
     }}
 //}

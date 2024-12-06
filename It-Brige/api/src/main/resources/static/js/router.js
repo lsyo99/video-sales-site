@@ -2,13 +2,14 @@ import { renderHomePage } from './home.js';
 import { renderHeader } from './header.js';
 import { renderImageDetailPage } from './imageDetails.js';
 import { renderLoginPage } from './login.js';
-import { logout } from './header.js'; // 로그아웃 함수 import
+import { logout } from '../util/logout.js';
 
 // 라우팅 테이블 설정
 const routes = {
     '/': renderHomePage,
     '/image/:id': renderImageDetailPage,
     '/login': renderLoginPage,
+    '/logout': logout,
 
 };
 
@@ -31,6 +32,9 @@ function extractParams(route, path) {
 // 현재 URL에 맞는 라우트를 찾고 렌더링
 function handleRoute() {
     const path = location.pathname;
+    if(path.startsWith('/open-api')){
+        return;
+    }
 
     // 항상 헤더를 렌더링
     renderHeader();
@@ -58,6 +62,7 @@ function handleRoute() {
                 (part, index) =>
                     part.startsWith(':') || part === path.split('/')[index]
             );
+            console.log('route')
 
         if (isMatch) {
             const params = extractParams(route, path);

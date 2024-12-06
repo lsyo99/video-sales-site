@@ -22,7 +22,7 @@ public class UserService {
 
         // 기본 권한 설정 (USER)
         if (userEntity.getAuthority() == null) {
-            var defaultAuthority = authorityRepository.findByAuthName("USER")
+            var defaultAuthority = authorityRepository.findByName("USER")
                     .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "Default authority not found"));
             userEntity.setAuthority(defaultAuthority);
         }
@@ -44,6 +44,9 @@ public class UserService {
 
         return userRepository.findFirstByEmailAndPasswordOrderByIdDesc(email,password)
                 .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
+    }
+    public  UserEntity getUserId(long userId){
+        return userRepository.findFirstByIdOrderByIdDesc(userId).orElseThrow(()->new ApiException(UserErrorCode.USER_NOT_FOUND));
     }
 //    public UserEntity getUser(
 //            Long Id

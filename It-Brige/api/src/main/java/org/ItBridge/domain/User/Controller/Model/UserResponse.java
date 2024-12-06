@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+    @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 
         private String email;
 
-        private String address;
+        private String phone;
 
 
 

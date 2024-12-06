@@ -14,7 +14,20 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root123!
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # 기존 AntPathMatcher를 사용하도록 설정
+  resources:
+    add-mappings: ant_path_matcher
+    web:
+      mime-types:
+        css: text/css
+        js: application/javascript
+        springdoc:
+          api-docs:
+            path: /v3/api-docs
+          swagger-ui:
+            path: /swagger-ui.html
 token:
   secret:
     key: SpringBootJWTHelperTokenSecretKeyValue123!@

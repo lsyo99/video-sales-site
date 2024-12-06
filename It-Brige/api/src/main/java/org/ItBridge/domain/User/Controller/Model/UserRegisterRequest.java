@@ -2,11 +2,14 @@ package org.ItBridge.domain.User.Controller.Model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +27,8 @@ public class UserRegisterRequest {
     private String phone;
 
 
-    private LocalDateTime birth;
+    @NotNull
+    private LocalDate birthday;
+
 
 }

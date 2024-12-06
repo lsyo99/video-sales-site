@@ -34,11 +34,13 @@ public class TokenService {
         return jwtTokenHelper.issueRefreshToken(claims).getToken();
     }
     public Long validationToken(String token){
-        var map = tokenHelperIfs.validationTokenWithThrow(token);
+        var map = jwtTokenHelper.validationTokenWithThrow(token);
         var userId = map.get("userId");
         Objects.requireNonNull(userId,()->{throw new ApiException(ErrorCode.NULL_POINT);
         });
         return Long.parseLong(userId.toString());
 
     }
+
+
 }

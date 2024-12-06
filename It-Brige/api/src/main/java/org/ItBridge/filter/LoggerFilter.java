@@ -14,41 +14,47 @@ import java.io.IOException;
 @Slf4j
 public class LoggerFilter implements Filter {
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         var request = new ContentCachingRequestWrapper((HttpServletRequest) servletRequest);
         var response = new ContentCachingResponseWrapper((HttpServletResponse) servletResponse);
-        //베스트는 이 전에 body 정보와 header정보를 찍어주야한다
-        //그러기 위해서는 Contentclasschaing외에 캐싱 해줄수 있는 클래스를 하나 만들어야된다.
-        filterChain.doFilter(request,response);
 
-        // request정보
-        var headernames = request.getHeaderNames();
-        var headervalues = new StringBuilder();
+        // 요청 URL 필터링 (정적 리소스 제외)
+        String requestUri = request.getRequestURI();
+        if (!requestUri.matches(".*\\.(css|js|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot)$")) {
+            // Request 정보
+            var headerNames = request.getHeaderNames();
+            var headerValues = new StringBuilder();
+            headerNames.asIterator().forEachRemaining(headerKey -> {
+                var headerValue = request.getHeader(headerKey);
+                headerValues.append("[").append(headerKey).append(" : ").append(headerValue).append("], ");
+            });
 
-        headernames.asIterator().forEachRemaining(headerKey->{
-            var headervalue = request.getHeader(headerKey);
-            headervalues.append("[").append(headerKey).append(" :").append(headervalue).append(",").append("] ");
+            var requestBody = new String(request.getContentAsByteArray());
+            var url = request.getRequestURL();
+            var method = request.getMethod();
+            log.info(">>>>url: {}, method: {}, header: {}, body: {}", url, method, headerValues, requestBody);
+        }
 
-        });
-        var requestBody = new String(request.getContentAsByteArray());
-        var url = request.getRequestURL();
-        var method = request.getMethod();
-        log.info(">>>>url: {}, method: {},  header : {} , body : {}",url, method, headervalues, requestBody);
+        // 다음 필터 체인 실행
+        filterChain.doFilter(request, response);
 
-        //reponse정보
-        var responseheaderValuss = new StringBuilder();
+        if (!requestUri.matches(".*\\.(css|js|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot)$")) {
+            // Response 정보
+            var responseHeaderValues = new StringBuilder();
+            response.getHeaderNames().forEach(headerKey -> {
+                var headerValue = response.getHeader(headerKey);
+                responseHeaderValues.append("[").append(headerKey).append(" : ").append(headerValue).append("], ");
+            });
 
-        response.getHeaderNames().forEach(headerKey->{
-            var headervalue = response.getHeader(headerKey);
-            responseheaderValuss.append(headerKey).append(" :").append(headervalue).append(",");
+            var responseBody = new String(response.getContentAsByteArray());
+            log.info("<<<<<< url: {}, method: {}, header: {}, body: {}", request.getRequestURL(), request.getMethod(), responseHeaderValues, responseBody);
+        }
 
-        });
-        var responseBody = new String(response.getContentAsByteArray());
-        log.info("<<<<<< url :{} , method : {} , header: {} , body: {}",url , method,responseheaderValuss,responseBody);
-
-        // 해당 코드 없으면 responser를 사용했기때문에 안내려감
-        response.copyBodyToResponse();;
+        // 응답 본문 복사
+        response.copyBodyToResponse();
     }
+
 
 
 }

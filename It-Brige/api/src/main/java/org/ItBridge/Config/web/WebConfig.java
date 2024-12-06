@@ -4,20 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ItBridge.Interceptor.AuthorizationInterceptor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
+
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final AuthorizationInterceptor authorizationInterceptor; // 주입받을 수 있는 이유는 컴포넌트이기 때문
+    private final AuthorizationInterceptor authorizationInterceptor;
 
-    //아래의 list는 제외되는 모든 주소를 통과시키기 위해서 생성 swagger, openapi 등등하
+    // 제외할 경로 설정
     private final List<String> OPEN_API = List.of(
             "/open-api/**",
             "/image/**",
@@ -26,42 +24,56 @@ public class WebConfig implements WebMvcConfigurer {
     );
     private final List<String> DEFAULT_EXCLUDED = List.of(
             "/",
-            "/favicon.ico", // 절대 경로로 수정
-            "/error"
+            "/favicon.ico",
+            "/error",
+            "/login"
     );
     private final List<String> SWAGGER = List.of(
             "/swagger-ui.html",
-            "/swagger-ui/**", // 오타 수정
+            "/swagger-ui/**",
             "/v3/api-docs/**"
     );
-    private final List<String> STATIC_RESOURCES = List.of(
-            "/css/**",
-            "/js/**",
-            "/images/**",
-            "/static/**"
-    );
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        log.info("Registering view controllers...");
+
+        registry.addViewController("/login")
+                .setViewName("forward:/index.html"); // SPA 경로 처리
+        registry.addViewController("/")
+                .setViewName("forward:/index.html"); // 루트 요청도 SPA로 처리
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorizationInterceptor)
-                .excludePathPatterns(SWAGGER)
-                .excludePathPatterns(DEFAULT_EXCLUDED)
-                .excludePathPatterns(OPEN_API)
-                .excludePathPatterns("/favicon.ico", "/ItBridge-logo.png")
-                .excludePathPatterns(STATIC_RESOURCES) // 정적 리소스 제외
-         .excludePathPatterns("/**/*.png", "/**/*.jpg", "/**/*.css", "/**/*.js", "/favicon.ico");
+                .excludePathPatterns(SWAGGER) // Swagger 문서
+                .excludePathPatterns(DEFAULT_EXCLUDED) // 기본 제외 경로
+                .excludePathPatterns(OPEN_API) // API 요청
+                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico", "/static/**"); // 정적 리소스 제외
 
         log.info("AuthorizationInterceptor is registered as an interceptor.");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**/","/css/**", "/js/**", "/images/**", "/static/**")
+                .addResourceLocations("classpath:/static/css/",
+                        "classpath:/static/js/",
+                        "classpath:/static/images/",
+                        "classpath:/static/");
+        registry.addResourceHandler("/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
+
+        registry.addResourceHandler("/v3/api-docs/**")
+                .addResourceLocations("classpath:/META-INF/resources/");
     }
-    //추후에 reslover
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-//        resolvers.add(userSessionResolver);
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // 모든 엔드포인트에 대해 CORS 허용
+                .allowedOrigins("http://localhost:8080") // Swagger UI가 실행 중인 주소
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
 }

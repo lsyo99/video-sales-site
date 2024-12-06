@@ -8,6 +8,7 @@ import org.ItBridge.db.user.UserEntity;
 import org.ItBridge.domain.User.Controller.Model.UserRegisterRequest;
 import org.ItBridge.domain.User.Controller.Model.UserResponse;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 
@@ -22,6 +23,9 @@ public class UserConverter {
                             .name(userRegisterRequest.getName())
                             .email(userRegisterRequest.getEmail())
                             .password(userRegisterRequest.getPassword())
+                            .birthday(userRegisterRequest.getBirthday())
+                            .phone(userRegisterRequest.getPhone())
+                            .sign_date(LocalDate.now())
                             .build();
                 }).orElseThrow(()-> new ApiException(ErrorCode.NULL_POINT,"UserRegisterRequest Null"));
     }
@@ -33,6 +37,7 @@ public class UserConverter {
                             .id(userEntity.getId())
                             .name(userEntity.getName())
                             .email(userEntity.getEmail())
+
                             .build();
                 }).orElseThrow(()-> new ApiException(ErrorCode.NULL_POINT,"UserRegisterRequest Null"));
     }

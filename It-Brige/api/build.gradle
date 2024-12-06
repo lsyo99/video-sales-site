@@ -46,6 +46,8 @@ dependencies {
     // Spring Boot Test (테스트 지원)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트용
+    //firebase연동
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
 }
 
 configurations {

@@ -44,7 +44,7 @@ export function renderHeader() {
             <input type="text" class="search-input" placeholder="내게 필요한 강의를 찾아보세요!" id="searchInput">
             <div class="account-links">
                 <span>${username}님</span>
-                <a href="javascript:void(0);" onclick="logout()">로그아웃</a>
+                <a href="javascript:void(0);" onclick="navigatetTo('/logout)">로그아웃</a>
             </div>
         `;
     } else {

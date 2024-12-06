@@ -19,13 +19,13 @@ import org.ItBridge.db.BaseEntity;
 public class AuthorityEntity extends BaseEntity {
 
     @Column(length = 20,nullable = false )
-    private String authName;
+    private String name;
     @Column(nullable = false)
-    private int authLevel;
+    private int level;
     @PrePersist
     public void setDefaults() {
-        if (this.authLevel == 0) { // 기본값이 0일 경우 설정
-            this.authLevel = 2;
+        if (this.level == 0) { // 기본값이 0일 경우 설정
+            this.level = 2;
         }
     }
 }

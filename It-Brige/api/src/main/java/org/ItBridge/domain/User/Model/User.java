@@ -16,9 +16,10 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private LocalDateTime registeredAt;
 
-    private LocalDateTime unregisteredAt;
+    private LocalDateTime birthday;
 
-    private LocalDateTime lastLoginAt;
+    private LocalDateTime created_at;
+
+    private LocalDateTime updated_at;
 }

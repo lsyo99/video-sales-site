@@ -1,7 +1,9 @@
 import { loadCSS } from "../util/loadCSS.js";
+import { login } from "../util/loginfunc.js"; // API 호출 함수 임포트
+
 export function renderLoginPage() {
-    loadCSS('css/login.css');
-    // 헤더 숨기기
+    loadCSS('/css/login.css');
+
     const header = document.querySelector('header');
     if (header) {
         header.style.display = 'none';
@@ -13,7 +15,6 @@ export function renderLoginPage() {
         return;
     }
 
-    // 로그인 페이지의 HTML 구조
     main.innerHTML = `
         <section class="login-page">
             <div class="login-container">
@@ -44,7 +45,6 @@ export function renderLoginPage() {
         </section>
     `;
 
-    // 로그인 폼 이벤트 리스너
     const loginForm = document.getElementById('loginForm');
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -52,7 +52,7 @@ export function renderLoginPage() {
         const password = document.getElementById('password').value;
 
         try {
-            await login(email, password);
+            await login(email, password); // 로그인 함수 호출
         } catch (error) {
             console.error('Error during login:', error);
             alert('로그인에 실패했습니다. 다시 시도하세요.');
