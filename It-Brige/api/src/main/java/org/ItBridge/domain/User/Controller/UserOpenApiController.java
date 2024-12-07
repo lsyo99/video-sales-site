@@ -3,6 +3,8 @@ package org.ItBridge.domain.User.Controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.ItBridge.Common.api.Api;
+import org.ItBridge.Common.error.ErrorCode;
+import org.ItBridge.Common.exception.ApiException;
 import org.ItBridge.domain.User.Business.UserBusiness;
 import org.ItBridge.domain.User.Controller.Model.UserLoginRequest;
 import org.ItBridge.domain.User.Controller.Model.UserRegisterRequest;
@@ -37,9 +39,15 @@ public class UserOpenApiController {
     }
     @PostMapping("/logout")
     public Api<UserResponse> logout(@RequestHeader("Authorization-Token") String accessToken) {
-        Long userId = tokenService.validationToken(accessToken); // 사용자 ID 추출
-        var response = userBusiness.logout(userId); // 로그아웃 처리
+        try {
+            Long userId = tokenService.validationToken(accessToken); // 사용자 ID 추출
+            var response = userBusiness.logout(userId); // 로그아웃 처리
+            return Api.ok(response);
+        } catch(ApiException e){
 
-        return Api.ok(response);
+            throw new ApiException(ErrorCode.BAD_REQUST, "로그아웃 실패");
+        }
+
     }
+
 }

@@ -1,15 +1,17 @@
 import { renderHomePage } from './home.js';
 import { renderHeader } from './header.js';
-import { renderImageDetailPage } from './imageDetails.js';
+import { renderLectureDetailPage } from './lectureDetails.js';
 import { renderLoginPage } from './login.js';
 import { logout } from '../util/logout.js';
 
 // 라우팅 테이블 설정
 const routes = {
     '/': renderHomePage,
-    '/image/:id': renderImageDetailPage,
+    '/lecture/:id': (params) => renderLectureDetailPage(params),
     '/login': renderLoginPage,
-    '/logout': logout,
+    '/logout': () => {
+            logout(); // 로그아웃 호출
+        },
 
 };
 
@@ -65,9 +67,19 @@ function handleRoute() {
             console.log('route')
 
         if (isMatch) {
-            const params = extractParams(route, path);
-            routes[route](params);
-            return;
+             const params = extractParams(route, path);
+                        const renderFunction = routes[route];
+
+                        // 디버깅용 로그
+                        console.log(`Matched route: ${route}`, { params, renderFunction });
+
+                        if (typeof renderFunction === 'function') {
+                            renderFunction(params); // 매개변수 전달
+                            console.log('Params passed to render function:', params);
+                            return;
+                        } else {
+                            console.error(`Route ${route} is not a function. Check the routes object.`);
+                        }
         }
     }
 

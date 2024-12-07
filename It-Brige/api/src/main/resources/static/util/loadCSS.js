@@ -5,7 +5,7 @@ export function loadCSS(href) {
     if (!existingLink) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = href;
+        link.href = href; // 매개변수 href를 사용
         document.head.appendChild(link);
     }
 }

@@ -49,7 +49,7 @@ body {
 /* 헤더 스타일 */
 .header {
     position: fixed; /* 상단 고정 */
-    top: 50px; /* 배너 높이만큼 아래로 이동 */
+    top: 40px; /* 배너 높이만큼 아래로 이동 */
     left: 0;
     width: 100%;
     z-index: 1000; /* 배너보다 아래 */

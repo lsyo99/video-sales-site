@@ -55,18 +55,23 @@ public class WebConfig implements WebMvcConfigurer {
         log.info("AuthorizationInterceptor is registered as an interceptor.");
     }
 
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**/","/css/**", "/js/**", "/images/**", "/static/**")
-                .addResourceLocations("classpath:/static/css/",
-                        "classpath:/static/js/",
-                        "classpath:/static/images/",
-                        "classpath:/static/");
-        registry.addResourceHandler("/swagger-ui/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/");
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/static/css/")
+                .setCachePeriod(3600)
+                .resourceChain(true);
 
-        registry.addResourceHandler("/v3/api-docs/**")
-                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/")
+                .setCachePeriod(3600)
+                .resourceChain(true);
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/")
+                .setCachePeriod(3600)
+                .resourceChain(true);
     }
     @Override
     public void addCorsMappings(CorsRegistry registry) {

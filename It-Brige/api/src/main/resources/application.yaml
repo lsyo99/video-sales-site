@@ -28,6 +28,8 @@ spring:
             path: /v3/api-docs
           swagger-ui:
             path: /swagger-ui.html
+            resources:
+              static-locations: classpath:/static/, file:src/main/resources/static/
 token:
   secret:
     key: SpringBootJWTHelperTokenSecretKeyValue123!@

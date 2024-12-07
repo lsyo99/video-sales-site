@@ -11,4 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LectureDetailResponse {
     private Long id;
+    private String url;
+    private Long lecture_id;
+    private Integer sort_img;
 }

@@ -1,8 +1,7 @@
 export function renderHeader() {
-    // 중복 렌더링 방지: 이미 헤더가 존재하면 렌더링하지 않음
-    if (document.querySelector('header')) {
-        return;
-    }
+    // 기존 헤더 제거 후 새로 렌더링
+    const existingHeader = document.querySelector('header');
+    if (existingHeader) existingHeader.remove();
 
     // 공지 배너 생성
     const announcement = document.createElement('div');
@@ -44,9 +43,17 @@ export function renderHeader() {
             <input type="text" class="search-input" placeholder="내게 필요한 강의를 찾아보세요!" id="searchInput">
             <div class="account-links">
                 <span>${username}님</span>
-                <a href="javascript:void(0);" onclick="navigatetTo('/logout)">로그아웃</a>
+                <a href="javascript:void(0);" id="logoutLink">로그아웃</a>
             </div>
         `;
+
+        // 로그아웃 버튼 이벤트 리스너 추가
+        setTimeout(() => {
+            const logoutLink = document.getElementById('logoutLink');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', () => logout());
+            }
+        });
     } else {
         firstRow.innerHTML = `
             <button class="category-btn">☰ 카테고리</button>
@@ -84,10 +91,16 @@ export function renderHeader() {
     document.body.insertBefore(header, document.body.firstChild.nextSibling);
 }
 
-// 로그아웃 함수
+//// 로그아웃 함수
 export function logout() {
+    console.log('Logging out...');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     sessionStorage.clear();
-    navigateTo('/login');
+
+    // 헤더 다시 렌더링
+    renderHeader();
+
+    // 로그인 페이지로 이동
+    navigateTo('/');
 }
