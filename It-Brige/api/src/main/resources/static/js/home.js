@@ -114,17 +114,17 @@ function renderCourses(courses) {
         courseList.innerHTML = `<p>No courses available</p>`;
         return;
     }
-
+const baseURL = "http://localhost:8080";
     // 강의 카드 렌더링
     courseList.innerHTML = courses.map((course, index) => `
         <div class="course-card" onclick="navigateTo('/lecture/${course.id}')">
             <div class="course-rank">${index + 1}위</div>
-            <img src="${course.image}" alt="${course.title}" class="course-image">
+              <img src="${baseURL}${course.thumbnail_url}" alt="${course.title}" class="course-image">
             <div class="course-info">
                 <h3 class="course-title">${course.title}</h3>
                 <p class="course-category">${course.category || "카테고리 없음"}</p>
                 <div class="price-container">
-                    <p class="course-sale">${course.sale || "할인 없음"}</p>
+                    <p class="course-sale">${course.sales || "할인 없음"}</p>
                     <p class="course-price">최저가 ${course.price ? course.price.toLocaleString() + "원~" : "정보 없음"}</p>
                 </div>
                 <p class="course-likes">${course.likes || 0} ♥</p>

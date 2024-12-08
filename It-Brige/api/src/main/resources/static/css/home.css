@@ -84,7 +84,7 @@
 
 /* 썸네일 이미지 */
 .course-image {
-    width: 100%;
+    width: 180px;
     height: 120px; /* 이미지 크기 조정 */
     object-fit: cover;
 }

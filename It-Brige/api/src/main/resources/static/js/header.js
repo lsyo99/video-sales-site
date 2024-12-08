@@ -42,12 +42,15 @@ export function renderHeader() {
             <button class="category-btn">☰ 카테고리</button>
             <input type="text" class="search-input" placeholder="내게 필요한 강의를 찾아보세요!" id="searchInput">
             <div class="account-links">
-                <span>${username}님</span>
-                <a href="javascript:void(0);" id="logoutLink">로그아웃</a>
+                <span class="username">${username}님</span> <a href="javascript:void(0);" id="logoutLink">로그아웃</a>
+                <div class="dropdown-menu">
+                    <a href="javascript:void(0);" onclick="navigateTo('/mypage')">마이페이지</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('/mycourses')">내 강의 이동</a>
+
+                </div>
             </div>
         `;
 
-        // 로그아웃 버튼 이벤트 리스너 추가
         setTimeout(() => {
             const logoutLink = document.getElementById('logoutLink');
             if (logoutLink) {
@@ -82,6 +85,51 @@ export function renderHeader() {
     `;
     navbar.appendChild(secondRow);
 
+    // 세 번째 줄: 아이콘 링크들
+    const thirdRow = document.createElement('div');
+    thirdRow.classList.add('third-row');
+    thirdRow.innerHTML = `
+        <nav class="icon-links">
+            <div class="dropdown-container">
+                <a href="javascript:void(0);" onclick="navigateTo('/ai')" title="인공지능">
+                    <img src="image/icons/ai.png" alt="AI Icon" class="nav-icon"> 인공지능
+                </a>
+
+            </div>
+            <div class="dropdown-container">
+                <a href="javascript:void(0);" onclick="navigateTo('/web-dev')" title="웹개발">
+                    <img src="image/icons/웹개발.png" alt="Web Dev Icon" class="nav-icon"> 웹개발
+                </a>
+
+            </div>
+            <div class="dropdown-container">
+                <a href="javascript:void(0);" onclick="navigateTo('/app-dev')" title="앱개발">
+                    <img src="image/icons/앱개발.png" alt="App Dev Icon" class="nav-icon"> 앱개발
+                </a>
+
+            </div>
+            <div class="dropdown-container">
+                <a href="javascript:void(0);" onclick="navigateTo('/certification')" title="자격증">
+                    <img src="image/icons/자격증.png" alt="Certification Icon" class="nav-icon"> 자격증
+                </a>
+
+            </div>
+            <div class="dropdown-container">
+                <a href="javascript:void(0);" onclick="navigateTo('/design')" title="디자인">
+                    <img src="image/icons/디자인.png" alt="Design Icon" class="nav-icon"> 디자인
+                </a>
+
+            </div>
+            <div class="dropdown-container">
+                <a href="javascript:void(0);" onclick="navigateTo('/data-analysis')" title="데이터 분석">
+                    <img src="image/icons/데이터분석.png" alt="Data Analysis Icon" class="nav-icon"> 데이터 분석
+                </a>
+
+            </div>
+        </nav>
+    `;
+    navbar.appendChild(thirdRow);
+
     // 네비게이션 바를 container에 추가
     container.appendChild(navbar);
     header.appendChild(container);
@@ -89,9 +137,10 @@ export function renderHeader() {
     // 문서에 공지 배너와 헤더 추가
     document.body.insertBefore(announcement, document.body.firstChild);
     document.body.insertBefore(header, document.body.firstChild.nextSibling);
-}
+    }
 
-//// 로그아웃 함수
+
+
 export function logout() {
     console.log('Logging out...');
     localStorage.removeItem('accessToken');
