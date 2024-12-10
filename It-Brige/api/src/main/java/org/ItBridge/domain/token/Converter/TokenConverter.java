@@ -20,11 +20,12 @@ public class TokenConverter {
                 .refreshTokenExpiredAt(refreshToken.getExpiredAt()) // 수정된 매핑
                 .build();
     }
-    public TokenResponse toResponse(String accessToken, String refreshToken, String username) {
+    public TokenResponse toResponse(String accessToken, String refreshToken, String username, Long userId) {
         return TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .username(username) // 사용자 이름 포함
+                .userId(userId)
                 .build();
     }
 }

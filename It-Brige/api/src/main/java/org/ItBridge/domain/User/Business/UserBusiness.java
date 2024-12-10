@@ -14,6 +14,7 @@ import org.ItBridge.domain.User.Service.UserService;
 import org.ItBridge.domain.token.Business.TokenBusiness;
 import org.ItBridge.domain.token.Controller.model.TokenResponse;
 import org.ItBridge.domain.token.helper.JwtTokenHelper;
+import org.springframework.web.context.request.RequestContextHolder;
 
 @Business
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class UserBusiness {
     public UserResponse logout(Long userId) {
         // 사용자 관련 토큰 삭제 또는 블랙리스트 등록 (선택 사항)
         log.info("User {} has been logged out", userId);
+        RequestContextHolder.resetRequestAttributes();
         return new UserResponse();
     }
 

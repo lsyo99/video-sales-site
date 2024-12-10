@@ -184,7 +184,7 @@ body {
 }
 
 /* 세 번째 줄 스타일 */
-.icon-links {
+/* .icon-links {
     display: flex;
     justify-content: center;
     gap: 30px;
@@ -214,7 +214,7 @@ body {
 
 .icon-links a:hover img.nav-icon {
     transform: scale(1.1);
-}
+} */
 
 /* 드롭다운 스타일 */
 .dropdown-container {

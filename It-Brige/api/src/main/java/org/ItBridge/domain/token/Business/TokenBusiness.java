@@ -11,6 +11,7 @@ import org.ItBridge.domain.User.Service.UserService;
 import org.ItBridge.domain.token.Controller.model.TokenResponse;
 import org.ItBridge.domain.token.Converter.TokenConverter;
 import org.ItBridge.domain.token.Service.TokenService;
+import org.ItBridge.domain.token.helper.JwtTokenHelper;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class TokenBusiness {
     private final TokenService tokenService;
     private final TokenConverter tokenConverter;
     private final UserService userService;
+    private final JwtTokenHelper jwtTokenHelper;
 
     // 사용자 엔티티에서 userId와 username을 추출하여 accessToken과 refreshToken을 발급
     public TokenResponse issueToken(UserEntity userEntity) {
@@ -34,12 +36,21 @@ public class TokenBusiness {
                     var refreshToken = tokenService.issueRefreshToken(userId);
 
                     // 응답 객체에 accessToken, refreshToken, username 포함
-                    return tokenConverter.toResponse(accessToken, refreshToken, username);
+                    return tokenConverter.toResponse(accessToken, refreshToken, username, userId);
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
-    public Long validationToken(String validationAccessToken) {
-        return tokenService.validationToken(validationAccessToken);
+//    public Long validationToken(String validationAccessToken) {
+//        return tokenService.validationToken(validationAccessToken);
+//    }
+    public Long validationToken(String token) {
+        try {
+            var claims = jwtTokenHelper.validationTokenWithThrow(token);
+            return Long.valueOf(claims.get("userId").toString());
+        } catch (ApiException e) {
+            log.error("Token validation failed: {}", e.getMessage());
+            throw e;
+        }
     }
 
     public TokenResponse reissueTokens(String refreshToken) {
@@ -53,7 +64,7 @@ public class TokenBusiness {
         var newRefreshToken = tokenService.issueRefreshToken(userId);
 
         // 토큰 응답 객체 반환
-        return tokenConverter.toResponse(newAccessToken, newRefreshToken,userName);
+        return tokenConverter.toResponse(newAccessToken, newRefreshToken,userName,userId);
     }
     public TokenResponse reissueToken(long userid) {
         UserEntity userEntity = userService.getUserId(userid);
@@ -67,8 +78,9 @@ public class TokenBusiness {
                     var refreshToken = tokenService.issueRefreshToken(userId);
 
                     // 응답 객체에 accessToken, refreshToken, username 포함
-                    return tokenConverter.toResponse(accessToken, refreshToken, username);
+                    return tokenConverter.toResponse(accessToken, refreshToken, username,userId);
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
+
 }

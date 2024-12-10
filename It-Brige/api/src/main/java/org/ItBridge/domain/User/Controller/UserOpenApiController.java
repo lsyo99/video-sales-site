@@ -28,7 +28,9 @@ public class UserOpenApiController {
     public Api<TokenResponse> login(@Valid @RequestBody Api<UserLoginRequest> request){
         var response = userBusiness.login(request.getBody());
         var username = response.getUsername();
+        var userId = response.getUserId();
         RequestContextHolder.getRequestAttributes().setAttribute("username",username, RequestAttributes.SCOPE_SESSION);
+        RequestContextHolder.getRequestAttributes().setAttribute("userId",userId, RequestAttributes.SCOPE_SESSION);
         return Api.ok(response);
     }
 

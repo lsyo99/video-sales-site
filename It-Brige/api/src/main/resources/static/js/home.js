@@ -55,7 +55,49 @@ export function renderHomePage() {
 
     main.innerHTML = `
         <section class="home container">
+         <nav class="icon-links">
             <div class="borad-container">
+            <div class="third-row">
+
+                        <div class="dropdown-container">
+                            <a href="javascript:void(0);" onclick="navigateTo('/ai')" title="인공지능">
+                                <img src="image/icons/ai.png" alt="AI Icon" class="nav-icon"> 인공지능
+                            </a>
+
+                        </div>
+                        <div class="dropdown-container">
+                            <a href="javascript:void(0);" onclick="navigateTo('/web-dev')" title="웹개발">
+                                <img src="image/icons/웹개발.png" alt="Web Dev Icon" class="nav-icon"> 웹개발
+                            </a>
+
+                        </div>
+                        <div class="dropdown-container">
+                            <a href="javascript:void(0);" onclick="navigateTo('/app-dev')" title="앱개발">
+                                <img src="image/icons/앱개발.png" alt="App Dev Icon" class="nav-icon"> 앱개발
+                            </a>
+
+                        </div>
+                        <div class="dropdown-container">
+                            <a href="javascript:void(0);" onclick="navigateTo('/certification')" title="자격증">
+                                <img src="image/icons/자격증.png" alt="Certification Icon" class="nav-icon"> 자격증
+                            </a>
+
+                        </div>
+                        <div class="dropdown-container">
+                            <a href="javascript:void(0);" onclick="navigateTo('/design')" title="디자인">
+                                <img src="image/icons/디자인.png" alt="Design Icon" class="nav-icon"> 디자인
+                            </a>
+
+                        </div>
+                        <div class="dropdown-container">
+                            <a href="javascript:void(0);" onclick="navigateTo('/data-analysis')" title="데이터 분석">
+                                <img src="image/icons/데이터분석.png" alt="Data Analysis Icon" class="nav-icon"> 데이터 분석
+                            </a>
+
+                        </div>
+
+            </div>
+            </nav>
                 <h5>BEST</h5>
                 <h2>실시간 BEST 인기 강의</h2>
                 <p>가장 많은 수강생이 주목하는 TOP 5 강의를 만나보세요.</p>

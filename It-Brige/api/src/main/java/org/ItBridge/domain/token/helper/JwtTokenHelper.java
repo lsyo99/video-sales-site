@@ -32,7 +32,7 @@ public class JwtTokenHelper implements TokenHelperIfs {
     public TokenDto issueAccessToken(Map<String, Object> data) {
         var expiredLocalDateTime = LocalDateTime.now().plusHours(accessTokenPlusHour);
         var expiredAt = Date.from(expiredLocalDateTime.atZone(
-                ZoneId.systemDefault()
+                ZoneId.of("Asia/Seoul")
         ).toInstant());
 
         var key = Keys.hmacShaKeyFor(secretKey.getBytes());

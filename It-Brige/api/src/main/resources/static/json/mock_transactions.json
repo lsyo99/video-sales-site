@@ -1,0 +1,21 @@
+[
+    {
+        "id": "1",
+        "title": "머신러닝 입문",
+        "price": 100000,
+        "sales": 20,
+        "payment_date": "2024-01-01",
+        "payment_method" : "카드결제",
+        "payment_price" : 20000,
+        "status" : "payed"
+    },
+    {
+        "title": "딥러닝 입문",
+        "price": 200000,
+        "sales": 10,
+        "payment_date": "2024-01-01",
+        "payment_method" : "카드결제",
+        "payment_price" : 180000,
+        "status" : "payed"
+    }
+]

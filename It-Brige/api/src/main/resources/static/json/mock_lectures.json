@@ -1,0 +1,15 @@
+[
+    {
+        "id": "1",
+        "title": "테디노트의 딥러닝 비법노트",
+        "category" : "딥러닝",
+        "img_url" : "/image/lectureThumbnail/1.webp"
+    },
+    {
+        "id": "2",
+        "title": "머신러닝 기초",
+        "category" : "머신러닝",
+        "img_url" : "/image/lectureThumbnail/2.webp"
+
+    }
+]

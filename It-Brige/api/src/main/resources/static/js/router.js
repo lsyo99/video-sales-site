@@ -3,7 +3,7 @@ import { renderHeader } from './header.js';
 import { renderLectureDetailPage } from './lectureDetails.js';
 import { renderLoginPage } from './login.js';
 import { logout } from '../util/logout.js';
-
+import { renderMyPage } from './mypage.js';
 // 라우팅 테이블 설정
 const routes = {
     '/': renderHomePage,
@@ -12,6 +12,7 @@ const routes = {
     '/logout': () => {
             logout(); // 로그아웃 호출
         },
+        '/mypage': renderMyPage,
 
 };
 

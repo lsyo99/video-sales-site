@@ -13,7 +13,7 @@ export async function login(email, password) {
             const data = await response.json();
 
             // 응답 데이터 구조 확인 및 필드 추출
-            const { access_token, refresh_token, username } = data.body;
+            const { access_token, refresh_token, username,user_id } = data.body;
 
             // 필드 유효성 검사
             if (!access_token || !refresh_token || !username) {
@@ -26,7 +26,7 @@ export async function login(email, password) {
             localStorage.setItem('accessToken', access_token);
             localStorage.setItem('refreshToken', refresh_token);
             sessionStorage.setItem('username', username);
-
+            sessionStorage.setItem('user_id,',user_id);
             console.log('username:', username);
 
             // 페이지 이동

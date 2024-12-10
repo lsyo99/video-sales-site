@@ -21,6 +21,8 @@ repositories {
 }
 
 dependencies {
+
+
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
     //jpa사용

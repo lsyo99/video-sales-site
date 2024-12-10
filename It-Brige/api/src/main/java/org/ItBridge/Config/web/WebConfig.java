@@ -50,7 +50,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(SWAGGER) // Swagger 문서
                 .excludePathPatterns(DEFAULT_EXCLUDED) // 기본 제외 경로
                 .excludePathPatterns(OPEN_API) // API 요청
-                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico", "/static/**"); // 정적 리소스 제외
+                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/favicon.ico", "/static/**")
+               ;
 
         log.info("AuthorizationInterceptor is registered as an interceptor.");
     }

@@ -127,7 +127,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             "/proxy/image",
             "/open-api/lecture",
             "/public/assets",
-            "/health-check"
+            "/health-check",
+            "/mypage/mypage"
     );
 
     @Override
@@ -191,5 +192,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     private void setUserIdInContext(Long userId) {
         var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
         requestContext.setAttribute("userId", userId, RequestAttributes.SCOPE_REQUEST);
+        // 추가로 username을 저장하려면 별도의 호출이 필요
+        requestContext.setAttribute("username", "your_username_value", RequestAttributes.SCOPE_REQUEST);
     }
 }
