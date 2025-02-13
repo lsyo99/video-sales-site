@@ -1,4 +1,5 @@
-export function renderHeader() {
+export async function renderHeader() {
+
     // 기존 헤더 제거 후 새로 렌더링
     const existingHeader = document.querySelector('header');
     if (existingHeader) existingHeader.remove();
@@ -35,21 +36,27 @@ export function renderHeader() {
     const firstRow = document.createElement('div');
     firstRow.classList.add('first-row');
 
+    const userRole = localStorage.getItem('user_role');
+    console.log("유저 권한16",userRole);
     // 로그인 상태 확인
     const username = sessionStorage.getItem('username');
-    if (username) {
-        firstRow.innerHTML = `
-            <button class="category-btn">☰ 카테고리</button>
-            <input type="text" class="search-input" placeholder="내게 필요한 강의를 찾아보세요!" id="searchInput">
-            <div class="account-links">
-                <span class="username">${username}님</span> <a href="javascript:void(0);" id="logoutLink">로그아웃</a>
-                <div class="dropdown-menu">
-                    <a href="javascript:void(0);" onclick="navigateTo('/mypage')">마이페이지</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('/mycourses')">내 강의 이동</a>
+      if (username) {
+//          userRole = getUserRole(); // 사용자 역할 가져오기
+//          console.log("홈 권한 :",userRole);
+          firstRow.innerHTML = `
+              <button class="category-btn">☰ 카테고리</button>
+              <input type="text" class="search-input" placeholder="내게 필요한 강의를 찾아보세요!" id="searchInput">
+              <div class="account-links">
+                  <span class="username">${username}님</span>
+                  <a href="javascript:void(0);" id="logoutLink">로그아웃</a>
+                  <div class="dropdown-menu">
+                      <a href="javascript:void(0);" onclick="navigateTo('/mypage')">마이페이지</a>
+                      <a href="javascript:void(0);" onclick="navigateTo('/mycourses')">내 강의 이동</a>
+                     ${userRole === "ADMIN" ? `<a href="javascript:void(0);" onclick="navigateTo('/adminpage')">강의 등록</a>` : ""}
+                  </div>
+              </div>
+          `;
 
-                </div>
-            </div>
-        `;
 
         setTimeout(() => {
             const logoutLink = document.getElementById('logoutLink');
@@ -66,17 +73,44 @@ export function renderHeader() {
                 <a href="javascript:void(0);" onclick="navigateTo('/support')">고객센터</a>
             </div>
         `;
+
     }
+
     navbar.appendChild(firstRow);
+    //검색기능
+    setTimeout(() => {
+        const searchInput = document.getElementById('searchInput');
+
+
+        if (searchInput) {
+            // 엔터 키 이벤트 리스너
+            searchInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    const keyword = searchInput.value.trim();
+                    if (keyword) {
+                        navigateTo(`/search?keyword=${encodeURIComponent(keyword)}`);
+                    } else {
+                        alert('검색어를 입력해주세요.');
+                    }
+                }
+            });
+
+
+
+        } else {
+            console.error("⚠️ 검색 입력란 (#searchInput)을 찾을 수 없습니다.");
+        }
+    });
+
 
     // 두 번째 줄: 네비게이션 링크들
     const secondRow = document.createElement('div');
     secondRow.classList.add('second-row');
     secondRow.innerHTML = `
         <nav class="nav-links">
-            <a href="javascript:void(0);" onclick="navigateTo('notice')">[공지]</a>
-            <a href="javascript:void(0);" onclick="navigateTo('discount')">할인 강의</a>
-            <a href="javascript:void(0);" onclick="navigateTo('new')">신규 강의</a>
+            <a href="javascript:void(0);" onclick="navigateTo('/notice')">[공지]</a>
+            <a href="javascript:void(0);" onclick="navigateTo('/discount')">할인 강의</a>
+            <a href="javascript:void(0);" onclick="navigateTo('/new')">신규 강의</a>
             <a href="javascript:void(0);" onclick="navigateTo('curriculum')">커리큘럼</a>
             <a href="javascript:void(0);" onclick="navigateTo('offline')">오프라인</a>
             <a href="javascript:void(0);" onclick="navigateTo('certification')">인증과정</a>
@@ -153,3 +187,5 @@ export function logout() {
     // 로그인 페이지로 이동
     navigateTo('/');
 }
+
+

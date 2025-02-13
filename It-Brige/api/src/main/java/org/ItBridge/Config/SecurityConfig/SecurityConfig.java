@@ -18,6 +18,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // 요청 권한 설정
                 .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/**").permitAll() // REST API 경로
+                        .requestMatchers("/css/**", "/js/**", "/images/**","/savevideo/**","/image/**","/index.html").permitAll() // 정적 리소
                         .requestMatchers("/admin/**").hasRole("ADMIN") // 관리자만 접근 가능
                         .requestMatchers("/user/**").hasRole("USER")   // 사용자만 접근 가능
                         .anyRequest().permitAll()                     // 나머지 요청은 모두 허용

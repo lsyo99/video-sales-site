@@ -18,4 +18,7 @@ public class LectureDetailService {
         return lectureDetailRepository.findAllByLectureIdOrderBySortImg(lectureId);
     }
 
+    public LectureDetailEntity save(LectureDetailEntity lectureDetail) {
+        return lectureDetailRepository.save(lectureDetail);
+    }
 }

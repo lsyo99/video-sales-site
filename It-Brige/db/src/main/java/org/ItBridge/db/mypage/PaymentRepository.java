@@ -18,11 +18,11 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity,Long> {
             "l.thumbnail_url AS thumbnail_url, " +
             "l.title AS title, " +
             "l.category AS category, " +
-            "p.firstPrice AS firstPrice, " +
+            "p.first_price AS first_price, " +
             "p.salse AS salse, " +
             "p.account AS account, " +
-            "p.payedDate AS payedDate, " +
-            "p.payedMethod AS payedMethod " +
+            "p.payed_date AS payed_date, " +
+            "p.payed_method AS payed_method " +
             "FROM payment p " +
             "JOIN lecture l ON p.lecture_id = l.id " +
             "WHERE p.user_id = :userId", nativeQuery = true)

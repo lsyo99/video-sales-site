@@ -17,10 +17,10 @@ public class MyPageLectureEntity {
     private String thumbnailUrl;
     private String title;
     private String category;
-    private BigDecimal firstPrice;
+    private BigDecimal first_price;
     private Integer salse;
     private BigDecimal account;
-    private LocalDateTime payedDate;
-    private String payedMethod;
+    private LocalDateTime payed_date;
+    private String payed_method;
 }
 

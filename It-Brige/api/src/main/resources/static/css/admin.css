@@ -1,0 +1,163 @@
+/* ✅ 관리자 페이지 컨테이너 (사이드바 포함) */
+.admin-container {
+    display: flex; /* 사이드바와 메인 콘텐츠를 나란히 배치 */
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 20px;
+    margin-top: 190px; /* 헤더(40px) + 공지 배너(100px) 만큼 띄움 */
+}
+
+/* ✅ 사이드바 스타일 (마이페이지 스타일 적용) */
+.sidebar {
+    flex: 0 0 250px; /* 고정 너비 */
+    padding: 20px 10px; /* 좌우 여백 조정 */
+    background-color: transparent; /* 배경 제거 */
+}
+
+.sidebar h2 {
+    font-size: 20px; /* 글자 크기 키움 */
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+/* ✅ 사이드바 메뉴 스타일 */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-menu li {
+    border-bottom: 1px solid #ddd; /* 각 메뉴 밑줄 */
+    margin-top: 5px;
+}
+
+.sidebar-menu li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px; /* 글자 크기 키움 */
+    display: block;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* ✅ 메인 콘텐츠 스타일 */
+.main-wrapper {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* 내부 스크롤 허용 */
+    max-height: 80vh; /* 높이 제한 */
+}
+
+/* ✅ 강의 등록 폼 - 모든 요소를 수직 정렬 */
+#course-upload-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+#course-upload-form label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+    display: block; /* 블록 요소로 변경하여 수직 정렬 유지 */
+}
+
+#course-upload-form input,
+#course-upload-form select,
+#course-upload-form textarea {
+    width: 100%; /* 한 줄 전체 차지 */
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* ✅ 파일 업로드 스타일 */
+#course-upload-form input[type="file"] {
+    border: none;
+    padding: 10px;
+    background: #f9f9f9;
+    width: 100%;
+}
+
+/* ✅ 버튼 스타일 */
+#course-upload-form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#course-upload-form button:hover {
+    background-color: #0056b3;
+}
+/* ✅ 파일 목록 스타일 */
+ul#detail-image-list, ul#video-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    max-height: 150px;
+    overflow-y: auto; /* 목록이 길어지면 스크롤 */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+ul#detail-image-list li, ul#video-list li {
+    font-size: 14px;
+    color: #333;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+ul#detail-image-list li:last-child, ul#video-list li:last-child {
+    border-bottom: none;
+}
+
+/* ✅ 반응형 디자인 */
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        flex: 0 0 auto;
+        margin-bottom: 20px;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        border-radius: 8px; /* 전체 둥글게 */
+    }
+
+    .main-wrapper {
+        border-radius: 8px; /* 전체 둥글게 */
+    }
+}

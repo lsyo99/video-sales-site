@@ -23,11 +23,11 @@ public class MyPageConverter {
                             .thumbnail_url(it.getThumbnailUrl())
                             .title(it.getTitle())
                             .category(it.getCategory())
-                            .first_price(it.getFirstPrice())
+                            .first_price(it.getFirst_price())
                             .salse(it.getSalse())
                             .account(it.getAccount())
-                            .payed_data(it.getPayedDate())
-                            .pay_method(it.getPayedMethod()).build();
+                            .payed_data(it.getPayed_date())
+                            .pay_method(it.getPayed_method()).build();
                 }
         ).orElseThrow(()-> new ApiException(ErrorCode.NULL_POINT,"값이 없음"));
 

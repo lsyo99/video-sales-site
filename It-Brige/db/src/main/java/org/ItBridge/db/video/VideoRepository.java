@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface VideoRepository extends JpaRepository<VideoEntity, Long > {
+    List<VideoEntity> findAllByLectureIdOrderBySortId(Long lectureId);
 //
-//    List<VideoEntity> findAllByLectureIdOrderBysortId(Long Lecture_id);
+//    List<VideoEntity> findAllByLectureIdOrderBySortId(Long Lecture_id);
 }

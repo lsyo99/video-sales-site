@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/mypage")
+@RequestMapping("/open-api/mypage")
 public class MypageController {
     private final MyPageBusiness myPageBusiness;
 
@@ -23,4 +23,5 @@ public class MypageController {
         var response = myPageBusiness.getMyLecture(user_id);
         return Api.ok(response);
     }
+
 }

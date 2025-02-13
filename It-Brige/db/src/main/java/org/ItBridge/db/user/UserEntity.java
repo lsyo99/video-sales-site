@@ -47,6 +47,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private AuthorityEntity authority;
 
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + authority.getLevel()));

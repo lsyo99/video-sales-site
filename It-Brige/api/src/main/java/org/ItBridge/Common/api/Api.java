@@ -24,6 +24,12 @@ public class Api<T> {
         api.result = Result.ok();
         return api;
     }
+
+    public static <T> Api<T> ERROR(T result){
+        var api = new Api();
+        api.body = result;
+        return api;
+    }
     public static Api<Object> ERROR(Result result){
         var api = new Api();
         api.body = result;

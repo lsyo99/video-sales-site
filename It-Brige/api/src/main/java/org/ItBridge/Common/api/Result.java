@@ -32,6 +32,7 @@ public class Result {
                 .resultMesage("에러발생")
                 .build();
     }
+
     //비추
     public static Result ERROR(ErrorCodeIfs errorCodeIfs,Throwable tx){
         return Result.builder()

@@ -1,5 +1,6 @@
 package org.ItBridge.db.Lecture;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,6 +14,7 @@ import org.springframework.data.annotation.TypeAlias;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -35,8 +37,8 @@ public class LectureEntity extends BaseEntity {
     @Column
     private Long sales;
 
-    @Column(name = "like", nullable = false, columnDefinition = "INT DEFAULT 0")
-    private Integer likes;
+    @Column(name = "likes", nullable = false, columnDefinition = "INT DEFAULT 0")
+    private int likes=0;
 
     @Column(name = "thumbnail_url", nullable = false, length = 1024)
     private String thumbnailUrl;
@@ -47,7 +49,9 @@ public class LectureEntity extends BaseEntity {
     @Column(name = "upload_at")
     private LocalDateTime uploadAt;
     //TODO 결제하고 payment해서 팔린 수만큼 할 것이기 때문에 나중에 삭제
-    @Column
-    private Integer rank;
+    @Column(name = "ranking")
+    private Integer ranking;
+
+
 
 }

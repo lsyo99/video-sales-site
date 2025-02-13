@@ -12,20 +12,21 @@ import java.util.Objects;
 @Converter
 @RequiredArgsConstructor
 public class TokenConverter {
-    public TokenResponse toResponse(TokenDto accessToken, TokenDto refreshToken){
-        return TokenResponse.builder()
-                .accessToken(accessToken.getToken())
-                .accessTokenExpiredAt(accessToken.getExpiredAt())
-                .refreshToken(refreshToken.getToken()) // 수정된 매핑
-                .refreshTokenExpiredAt(refreshToken.getExpiredAt()) // 수정된 매핑
-                .build();
-    }
-    public TokenResponse toResponse(String accessToken, String refreshToken, String username, Long userId) {
+//    public TokenResponse toResponse(TokenDto accessToken, TokenDto refreshToken){
+//        return TokenResponse.builder()
+//                .accessToken(accessToken.getToken())
+//                .accessTokenExpiredAt(accessToken.getExpiredAt())
+//                .refreshToken(refreshToken.getToken()) // 수정된 매핑
+//                .refreshTokenExpiredAt(refreshToken.getExpiredAt()) // 수정된 매핑
+//                .build();
+//    }
+    public TokenResponse toResponse(String accessToken, String refreshToken, String username, Long userId, String userRole) {
         return TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .username(username) // 사용자 이름 포함
                 .userId(userId)
+                .userRole(userRole)
                 .build();
     }
 }

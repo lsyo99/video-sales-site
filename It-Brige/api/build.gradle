@@ -15,6 +15,7 @@ java {
 
 repositories {
     mavenCentral() // 의존성 다운로드 위치
+    maven{url = "https://jitpack.io"}
 }
 
 dependencies {
@@ -48,6 +49,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트용
     //firebase연동
     implementation 'com.google.firebase:firebase-admin:9.1.1'
+    implementation "com.github.iamport:iamport-rest-client-java:0.2.23"
 }
 
 configurations {

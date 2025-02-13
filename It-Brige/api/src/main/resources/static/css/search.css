@@ -1,0 +1,166 @@
+/* 컨테이너 스타일 */
+.resultsearch-container {
+    margin: 80px auto;
+    max-width: 1200px; /* 선택적 최대 너비 */
+    display: flex;
+    flex-direction: column;
+    margin-top: 190px;
+    padding: 20px;
+    height: auto; /* 높이 자동 설정 */
+    box-sizing: border-box; /* 내부 여백 포함 */
+}
+
+/* 강의 리스트 컨테이너 */
+.course-list-container {
+    display: flex;
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    justify-content: center; /* 카드가 가운데 정렬 */
+    gap: 20px; /* 카드 간 간격 */
+    width: 100%; /* 부모 컨테이너 폭에 맞춤 */
+    height: auto; /* 높이를 콘텐츠에 맞게 자동 설정 */
+    overflow: hidden; /* 스크롤 방지 */
+    box-sizing: border-box;
+}
+#course-list {
+    display: flex; /* Flexbox 적용 */
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    justify-content: center; /* 가운데 정렬 */
+    gap: 20px; /* 카드 간 간격 */
+    width: 100%; /* 부모 컨테이너 폭에 맞춤 */
+    height: auto; /* 높이를 콘텐츠에 맞게 자동 설정 */
+    overflow: visible; /* 스크롤 제거 */
+    box-sizing: border-box;
+}
+.course-card {
+    flex: 0 0 calc(25% - 20px); /* 한 줄에 4개로 고정 */
+    max-width: calc(25% - 20px); /* 최대 너비 고정 */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 반응
+/* 강의 카드 이미지 */
+.course-image {
+    width: 100%;
+    height: 160px; /* 고정 높이 */
+    object-fit: cover; /* 이미지 비율 유지 */
+    border-bottom: 1px solid #ddd;
+}
+
+/* 강의 순위 표시 */
+.course-rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4500;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+/* 강의 정보 */
+.course-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.course-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.course-category {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-sale {
+    font-size: 12px;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.course-price {
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 좋아요 표시 */
+.course-likes {
+    font-size: 12px;
+    color: #ff4500;
+}
+
+/* 강의 태그 */
+.course-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    background: #f1f1f1;
+    color: #666;
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 반응형 레이아웃 */
+@media (max-width: 1200px) {
+    .course-card {
+        flex: 0 0 calc(33.33% - 20px); /* 한 줄에 3개 */
+        max-width: calc(33.33% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .course-card {
+        flex: 0 0 calc(50% - 20px); /* 한 줄에 2개 */
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .course-card {
+        flex: 0 0 100%; /* 한 줄에 1개 */
+        max-width: 100%;
+    }
+}

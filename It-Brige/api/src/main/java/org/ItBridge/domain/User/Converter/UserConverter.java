@@ -7,6 +7,7 @@ import org.ItBridge.Common.exception.ApiException;
 import org.ItBridge.db.user.UserEntity;
 import org.ItBridge.domain.User.Controller.Model.UserRegisterRequest;
 import org.ItBridge.domain.User.Controller.Model.UserResponse;
+import org.ItBridge.domain.User.Controller.Model.UserRoleResponse;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -40,5 +41,10 @@ public class UserConverter {
 
                             .build();
                 }).orElseThrow(()-> new ApiException(ErrorCode.NULL_POINT,"UserRegisterRequest Null"));
+    }
+
+    public UserRoleResponse toRoleResponse(String role) {
+        return UserRoleResponse.builder().Role(role).build();
+
     }
 }

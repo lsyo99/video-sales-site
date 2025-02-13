@@ -1,0 +1,55 @@
+/* 결제 페이지 컨테이너 */
+.payment-container {
+    max-width: 1000px;
+    margin: 150px auto; /* header 바로 아래에 위치 */
+    padding: 0 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+/* 제목 스타일 */
+.payment-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 강의 정보 */
+.course-info {
+    margin-bottom: 30px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.course-info p {
+    margin: 5px 0;
+}
+
+/* 결제 버튼 폼 */
+.payment-form {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.payment-form button {
+    flex: 1;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#card-pay-button {
+    background-color: #007bff;
+}
+
+#card-pay-button:hover {
+    background-color: #0056b3;
+}

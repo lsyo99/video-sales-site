@@ -2,19 +2,19 @@ import { loadCSS } from "../util/loadCSS.js";
 import { navigateTo } from "./router.js";
 
 // JSON 데이터 로드 함수
-async function fetchCourses(category = "all") {
+export async function fetchCourses(category = "all", type = "best") {
     try {
-        const url = `/open-api/lecture/best?category=${encodeURIComponent(category)}`;
+        const url = `/open-api/lecture/${type}?category=${encodeURIComponent(category)}`;
         console.log(`Fetching courses from: ${url}`);
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error("Failed to fetch courses");
+            throw new Error(`Failed to fetch ${type} courses`);
         }
         const data = await response.json();
-        console.log("Fetched courses:", data);
+        console.log(`Fetched ${type} courses:`, data);
         return data.body || [];
     } catch (error) {
-        console.error("Error fetching courses:", error);
+        console.error(`Error fetching ${type} courses:`, error);
         return [];
     }
 }
@@ -43,7 +43,6 @@ async function fetchImages() {
     }
 }
 
-// 홈 페이지 렌더링 함수
 export function renderHomePage() {
     loadCSS("/css/home.css");
 
@@ -55,113 +54,125 @@ export function renderHomePage() {
 
     main.innerHTML = `
         <section class="home container">
-         <nav class="icon-links">
-            <div class="borad-container">
-            <div class="third-row">
-
-                        <div class="dropdown-container">
-                            <a href="javascript:void(0);" onclick="navigateTo('/ai')" title="인공지능">
-                                <img src="image/icons/ai.png" alt="AI Icon" class="nav-icon"> 인공지능
-                            </a>
-
-                        </div>
-                        <div class="dropdown-container">
-                            <a href="javascript:void(0);" onclick="navigateTo('/web-dev')" title="웹개발">
-                                <img src="image/icons/웹개발.png" alt="Web Dev Icon" class="nav-icon"> 웹개발
-                            </a>
-
-                        </div>
-                        <div class="dropdown-container">
-                            <a href="javascript:void(0);" onclick="navigateTo('/app-dev')" title="앱개발">
-                                <img src="image/icons/앱개발.png" alt="App Dev Icon" class="nav-icon"> 앱개발
-                            </a>
-
-                        </div>
-                        <div class="dropdown-container">
-                            <a href="javascript:void(0);" onclick="navigateTo('/certification')" title="자격증">
-                                <img src="image/icons/자격증.png" alt="Certification Icon" class="nav-icon"> 자격증
-                            </a>
-
-                        </div>
-                        <div class="dropdown-container">
-                            <a href="javascript:void(0);" onclick="navigateTo('/design')" title="디자인">
-                                <img src="image/icons/디자인.png" alt="Design Icon" class="nav-icon"> 디자인
-                            </a>
-
-                        </div>
-                        <div class="dropdown-container">
-                            <a href="javascript:void(0);" onclick="navigateTo('/data-analysis')" title="데이터 분석">
-                                <img src="image/icons/데이터분석.png" alt="Data Analysis Icon" class="nav-icon"> 데이터 분석
-                            </a>
-
-                        </div>
-
-            </div>
+            <nav class="icon-links">
+                <div class="borad-container">
+                    <div class="third-row">
+                        <!-- Dropdown 메뉴 -->
+                        ${renderCategoryIcons()}
+                    </div>
+                </div>
             </nav>
+            <!-- BEST 강의 섹션 -->
+            <div class="best-course-container">
                 <h5>BEST</h5>
                 <h2>실시간 BEST 인기 강의</h2>
                 <p>가장 많은 수강생이 주목하는 TOP 5 강의를 만나보세요.</p>
-                <div class="category-buttons">
-                    <button class="category-btn" data-category="all">전체</button>
-                    <button class="category-btn" data-category="딥러닝">딥러닝</button>
-                    <button class="category-btn" data-category="머신러닝">머신러닝</button>
-                    <button class="category-btn" data-category="앱개발">앱개발</button>
-                    <button class="category-btn" data-category="프론트엔드">프론트엔드</button>
-                    <button class="category-btn" data-category="백엔드">백엔드</button>
-                    <button class="category-btn" data-category="자격증">자격증</button>
-                    <button class="category-btn" data-category="데이터분석">데이터분석</button>
-                    <button class="category-btn" data-category="빅데이터분석">빅데이터분석</button>
+                <div class="category-buttons" id="best-category-buttons">
+                    ${renderCategoryButtons()}
                 </div>
                 <div class="course-list-container">
                     <div id="course-list" class="course-list"></div>
                 </div>
-                <div class="img-list-container">
-                    <div id="img-List" class="img-List"></div>
+            </div>
+            <!-- 신규 강의 섹션 -->
+            <div class="new-course-container">
+                <h5>NEW</h5>
+                <h2>새로운 강의</h2>
+                <p>트렌디한 주제의 새로운 인기 강의를 살펴보세요.</p>
+                <div class="category-buttons" id="new-category-buttons">
+                    ${renderCategoryButtons()}
                 </div>
+                <div class="new-course-list-container">
+                    <div id="new-course-list" class="new-course-list"></div>
+                </div>
+            </div>
+            <!-- 이미지 섹션 -->
+            <div class="img-list-container">
+                <div id="img-List" class="img-List"></div>
             </div>
         </section>
     `;
 
-    // 기본 카테고리 '전체' 데이터 로드
-    fetchCourses().then(courses => {
-        renderCourses(courses);
-    }).catch(error => {
-        console.error("Error fetching courses:", error);
+    // BEST 강의 데이터 로드
+    fetchCourses("all", "best").then(courses => {
+        renderCourses(courses, "course-list");
     });
 
-    // 카테고리 버튼 이벤트 설정
-    document.querySelectorAll(".category-btn").forEach(button => {
-        button.addEventListener("click", async () => {
-            const category = button.getAttribute("data-category") || "all";
-            const filteredCourses = await fetchCourses(category);
-            renderCourses(filteredCourses);
-        });
+    // 신규 강의 데이터 로드
+    fetchCourses("all", "new").then(courses => {
+        renderCourses(courses, "new-course-list");
     });
 
     // 이미지 로드
     fetchImages();
+
+    // 카테고리 버튼 이벤트 설정
+    setupCategoryButtons("best-category-buttons", "best", "course-list");
+    setupCategoryButtons("new-category-buttons", "new", "new-course-list");
 }
 
-// 강의 카드를 렌더링하는 함수
-function renderCourses(courses) {
-    const courseList = document.getElementById("course-list");
-    if (!courseList) {
-        console.error("Element with id 'course-list' not found.");
+function renderCategoryIcons() {
+    const categories = [
+        { title: "인공지능", icon: "ai.png", link: "/ai" },
+        { title: "웹개발", icon: "웹개발.png", link: "/web-dev" },
+        { title: "앱개발", icon: "앱개발.png", link: "/app-dev" },
+        { title: "자격증", icon: "자격증.png", link: "/certification" },
+        { title: "디자인", icon: "디자인.png", link: "/design" },
+        { title: "데이터 분석", icon: "데이터분석.png", link: "/data-analysis" },
+    ];
+
+    return categories.map(category => `
+        <div class="dropdown-container">
+            <a href="javascript:void(0);" onclick="navigateTo('${category.link}')" title="${category.title}">
+                <img src="image/icons/${category.icon}" alt="${category.title} Icon" class="nav-icon">
+                ${category.title}
+            </a>
+        </div>
+    `).join("");
+}
+
+function renderCategoryButtons() {
+    const categories = [
+        "전체", "딥러닝", "머신러닝", "앱개발",
+        "프론트엔드", "백엔드", "자격증", "데이터분석", "빅데이터분석"
+    ];
+
+    return categories.map(category => `
+        <button class="category-btn" data-category="${category}">${category}</button>
+    `).join("");
+}
+
+function setupCategoryButtons(buttonsContainerId, type, listId) {
+    const buttonsContainer = document.getElementById(buttonsContainerId);
+    if (!buttonsContainer) return;
+
+    buttonsContainer.querySelectorAll(".category-btn").forEach(button => {
+        button.addEventListener("click", async () => {
+            const category = button.getAttribute("data-category") || "all";
+            const courses = await fetchCourses(category, type);
+            renderCourses(courses, listId);
+        });
+    });
+}
+
+function renderCourses(courses, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Element with id '${containerId}' not found.`);
         return;
     }
 
-    // 데이터가 배열인지 확인
     if (!Array.isArray(courses)) {
         console.error("Courses is not an array:", courses);
-        courseList.innerHTML = `<p>No courses available</p>`;
+        container.innerHTML = `<p>No courses available</p>`;
         return;
     }
-const baseURL = "http://localhost:8080";
-    // 강의 카드 렌더링
-    courseList.innerHTML = courses.map((course, index) => `
+
+    const baseURL = "http://localhost:8080";
+    container.innerHTML = courses.map((course, index) => `
         <div class="course-card" onclick="navigateTo('/lecture/${course.id}')">
             <div class="course-rank">${index + 1}위</div>
-              <img src="${baseURL}${course.thumbnail_url}" alt="${course.title}" class="course-image">
+            <img src="${baseURL}${course.thumbnail_url}" alt="${course.title}" class="course-image">
             <div class="course-info">
                 <h3 class="course-title">${course.title}</h3>
                 <p class="course-category">${course.category || "카테고리 없음"}</p>

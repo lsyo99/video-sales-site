@@ -18,15 +18,17 @@ import org.ItBridge.db.Lecture.LectureEntity;
 @Table(name = "video")
 public class VideoEntity extends BaseEntity {
 
-    @Column(name = "url", nullable = false, length = 10124)
+    @Column(name = "url", nullable = false, length = 1024)
     private String url;
 
     @JoinColumn(name="lecture_id", nullable = false)
     @ManyToOne(fetch=FetchType.LAZY)
-    private LectureEntity Lecture;
+    private LectureEntity lecture;
 
     @Column(name = "sort_id", nullable = false)
-    private Integer sort_id;
+    private Integer sortId;
     @Column(name = "title", nullable = false, length = 255)
     private String title;
+    @Column(name = "duration", length = 255, nullable = false)
+    private String duration;
 }

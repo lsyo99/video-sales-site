@@ -17,5 +17,6 @@ public class TokenResponse {
     private LocalDateTime refreshTokenExpiredAt;
     private String username;
     private Long userId;
+    private String userRole;
 
 }

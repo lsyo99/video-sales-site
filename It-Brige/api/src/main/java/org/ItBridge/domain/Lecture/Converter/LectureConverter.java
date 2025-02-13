@@ -7,8 +7,10 @@ import org.ItBridge.Common.exception.ApiException;
 import org.ItBridge.db.Lecture.LectureEntity;
 import org.ItBridge.domain.Lecture.Controller.model.LectureRequest;
 import org.ItBridge.domain.Lecture.Controller.model.LectureResponse;
+import org.ItBridge.domain.Lecture.Controller.model.LectureSaveReqeust;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -34,11 +36,28 @@ public class LectureConverter {
                             .likes(lectureEntity.getLikes())
                             .title(lectureEntity.getTitle())
                             .price(lectureEntity.getPrice())
-                            .rank(lectureEntity.getRank())
+                            .rank(lectureEntity.getRanking())
                             .category(lectureEntity.getCategory())
                             .thumbnailUrl(lectureEntity.getThumbnailUrl())
-                            .rank(lectureEntity.getRank())
+                            .rank(lectureEntity.getRanking())
                             .build();
                 }).orElseThrow(()->new ApiException(ErrorCode.NULL_POINT,"lecture Null"));
+    }
+
+    public LectureEntity tosvaeEntity(String thumbnailUrl, LectureSaveReqeust lectureSaveReqeust) {
+        return Optional.ofNullable(lectureSaveReqeust)
+                .map(it->{
+                    return LectureEntity.builder()
+                            .sales(lectureSaveReqeust.getSales())
+                            .tags(lectureSaveReqeust.getTagsAsJson())
+                            .price(lectureSaveReqeust.getPrice())
+                            .title(lectureSaveReqeust.getTitle())
+                            .thumbnailUrl(thumbnailUrl)
+                            .category(lectureSaveReqeust.getCategory())
+                            .uploadAt(LocalDateTime.now())
+                            .build();
+
+                }).orElseThrow(()-> new ApiException(ErrorCode.SERVER_ERROR,"저장 안됨"));
+
     }
 }

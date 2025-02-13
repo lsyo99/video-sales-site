@@ -9,6 +9,7 @@ import org.ItBridge.Common.exception.ApiException;
 import org.ItBridge.domain.User.Controller.Model.UserLoginRequest;
 import org.ItBridge.domain.User.Controller.Model.UserRegisterRequest;
 import org.ItBridge.domain.User.Controller.Model.UserResponse;
+import org.ItBridge.domain.User.Controller.Model.UserRoleResponse;
 import org.ItBridge.domain.User.Converter.UserConverter;
 import org.ItBridge.domain.User.Service.UserService;
 import org.ItBridge.domain.token.Business.TokenBusiness;
@@ -56,4 +57,9 @@ public class UserBusiness {
     }
 
 
+    public UserRoleResponse getUserRole(Long userId) {
+
+        var role =  userService.getUserRole(userId);
+        return userConverter.toRoleResponse(role);
+    }
 }

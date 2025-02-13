@@ -45,17 +45,38 @@ export function renderLoginPage() {
         </section>
     `;
 
-    const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-        try {
-            await login(email, password); // 로그인 함수 호출
-        } catch (error) {
-            console.error('Error during login:', error);
-            alert('로그인에 실패했습니다. 다시 시도하세요.');
+    try {
+        const userData = await login(email, password); // login 함수 호출
+        if (!userData || !userData.user_id) {
+            throw new Error('로그인 데이터가 유효하지 않습니다.');
         }
-    });
+
+        sessionStorage.setItem('user_id', userData.user_id);
+        console.log('로그인 성공, user_id:', userData.user_id);
+        sessionStorage.setItem('refreshToken', userData.refresh_token);
+        console.log("로그인 성공, 리프레시 토큰은", userData.refresh_token);
+        sessionStorage.setItem('accessToken', userData.access_token);
+                console.log("로그인 성공, 엑세스 토큰은", userData.access_token);
+        const checkaccesstoken = sessionStorage.getItem('accessToken');
+//        if(!checkaccesstoken){
+//         throw new Error('로그인 응답 데이터가 올바르지 않습니다.');
+//        }
+
+        sessionStorage.setItem('user_role',userData.user_role);
+        console.log("유저권한", userData.user_role);
+        // 로그인 성공 후 메인 페이지로 이동
+        // 로그인 성공 후 메인 페이지로 이동
+
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Error during login:', error);
+        alert(error.message || '로그인에 실패했습니다. 다시 시도하세요.');
+    }
+});
+
 }

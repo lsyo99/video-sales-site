@@ -12,34 +12,35 @@ export async function login(email, password) {
         if (response.ok) {
             const data = await response.json();
 
-            // 응답 데이터 구조 확인 및 필드 추출
-            const { access_token, refresh_token, username,user_id } = data.body;
+            const { access_token, refresh_token, username, user_id,user_role } = data.body;
 
-            // 필드 유효성 검사
-            if (!access_token || !refresh_token || !username) {
-                console.error('Login response missing critical fields:', data);
-                alert('로그인 응답 데이터가 올바르지 않습니다.');
-                return;
+            if (!access_token || !refresh_token || !username || !user_id|| !user_role) {
+                throw new Error('로그인 응답 데이터가 올바르지 않습니다.');
             }
 
             // JWT 및 사용자 정보 저장
             localStorage.setItem('accessToken', access_token);
             localStorage.setItem('refreshToken', refresh_token);
+            sessionStorage.setItem("accessToken",access_token);
+            console.log("로그인1 엑세스 토큰",access_token);
+            console.log("로그인 리프레시 토큰",refresh_token);
             sessionStorage.setItem('username', username);
-            sessionStorage.setItem('user_id,',user_id);
-            console.log('username:', username);
+            sessionStorage.setItem('user_id', user_id.toString());
+            sessionStorage.setItem('user_role',user_role);
+            localStorage.setItem('user_role',user_role);
+            sessionStorage.setItem('accessToken', access_token);
 
-            // 페이지 이동
-            window.location.href = '/';
+                    console.log("유저권한", user_role);
+
+
+            console.log('로그인 성공, username:', username);
+            return { user_id, username,refresh_token }; // 반환 값을 보장
         } else {
-            // 서버 응답이 실패한 경우
             const errorData = await response.json();
-            console.error('Login failed:', errorData);
-            alert(errorData.message || '로그인에 실패했습니다.');
+            throw new Error(errorData.message || '로그인 실패');
         }
     } catch (error) {
-        // 네트워크 또는 기타 오류 처리
-        console.error('Error during login:', error);
-        alert('로그인 중 오류가 발생했습니다.');
+        console.error('로그인 중 예외 발생:', error);
+        throw error; // 예외를 다시 던져서 호출한 곳에서 처리
     }
 }

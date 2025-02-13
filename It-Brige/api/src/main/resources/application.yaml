@@ -5,31 +5,55 @@ spring:
       format_sql: true
       dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   logging:
     level:
-      root: DEBUG
+      org.springframework.web: DEBUG
   datasource:
     url: jdbc:mysql://localhost:3306/ItBridge?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://mysql-container:3306/ItBridge?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://172.18.0.2:3306/ItBridge?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root123!
+
   mvc:
-    pathmatch:
+#    static-path-pattern: "/static/**"
+    path match:
       matching-strategy: ant_path_matcher # 기존 AntPathMatcher를 사용하도록 설정
+    contentnegotiation:
+      favor-path-extension: true
+      media-types:
+        mp4: video/mp4
   resources:
-    add-mappings: ant_path_matcher
-    web:
+    add-mappings: true
+    chain:
+      strategy:
+        fixed:
+          enabled: true
+          extensions: true
+      content-types:
+        enabled: true
       mime-types:
         css: text/css
         js: application/javascript
+    web:
         springdoc:
           api-docs:
             path: /v3/api-docs
           swagger-ui:
             path: /swagger-ui.html
             resources:
-              static-locations: classpath:/static/, file:src/main/resources/static/
+              static-locations: classpath:/static/**
+              cache:
+                period: 0
+                cachecontrol :
+                  no-cache: true
+
+  servlet:
+    multipart:
+      max-file-size: 100MB       # 단일 파일의 최대 크기
+      max-request-size: 100MB    # 요청 전체의 최대 크기 (여러 파일 포함)
 token:
   secret:
     key: SpringBootJWTHelperTokenSecretKeyValue123!@
@@ -37,5 +61,6 @@ token:
     plus-hour: 24
   refresh-token:
     plus-hour: 24
+
 
 

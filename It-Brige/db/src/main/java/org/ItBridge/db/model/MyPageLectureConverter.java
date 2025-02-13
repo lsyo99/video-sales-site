@@ -21,17 +21,17 @@ import java.time.LocalDateTime;
             entity.setThumbnailUrl(tuple.get(2, String.class));
             entity.setTitle(tuple.get(3, String.class));
             entity.setCategory(tuple.get(4, String.class));
-            entity.setFirstPrice(tuple.get(5, BigDecimal.class));
+            entity.setFirst_price(tuple.get(5, BigDecimal.class));
             entity.setSalse(tuple.get(6, Integer.class)); // Sales는 Integer로 처리
             entity.setAccount(tuple.get(7, BigDecimal.class));
 
             // Timestamp를 LocalDateTime으로 변환
             Timestamp timestamp = tuple.get(8, Timestamp.class);  // Timestamp 객체 추출
             if (timestamp != null) {
-                entity.setPayedDate(timestamp.toLocalDateTime());  // 변환 작업
+                entity.setPayed_date(timestamp.toLocalDateTime());  // 변환 작업
             }
 
-            entity.setPayedMethod(tuple.get(9, String.class));
+            entity.setPayed_method(tuple.get(9, String.class));
 
             return entity;
         }

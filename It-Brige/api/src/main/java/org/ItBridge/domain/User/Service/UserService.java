@@ -37,7 +37,7 @@ public class UserService {
     ){
         var entity = getUser(email,password);
 
-        return  entity;
+        return entity;
     }
 
     public UserEntity getUser(String email, String password) {
@@ -47,6 +47,15 @@ public class UserService {
     }
     public  UserEntity getUserId(long userId){
         return userRepository.findFirstByIdOrderByIdDesc(userId).orElseThrow(()->new ApiException(UserErrorCode.USER_NOT_FOUND));
+    }
+
+    public String getUserRole(Long userId) {
+        if (userId == null) {
+            throw new ApiException(ErrorCode.NULL_POINT, "userId가 null입니다.");
+        }
+        return userRepository.findFirstByIdOrderByIdDesc(userId).orElseThrow(()-> new ApiException(ErrorCode.NULL_POINT,"user를 찾을 수 없음"))
+                .getAuthority().getName();
+
     }
 //    public UserEntity getUser(
 //            Long Id
