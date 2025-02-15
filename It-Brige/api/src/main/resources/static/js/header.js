@@ -111,10 +111,10 @@ export async function renderHeader() {
             <a href="javascript:void(0);" onclick="navigateTo('/notice')">[공지]</a>
             <a href="javascript:void(0);" onclick="navigateTo('/discount')">할인 강의</a>
             <a href="javascript:void(0);" onclick="navigateTo('/new')">신규 강의</a>
-            <a href="javascript:void(0);" onclick="navigateTo('curriculum')">커리큘럼</a>
-            <a href="javascript:void(0);" onclick="navigateTo('offline')">오프라인</a>
-            <a href="javascript:void(0);" onclick="navigateTo('certification')">인증과정</a>
-            <a href="javascript:void(0);" onclick="navigateTo('seminar')">세미나</a>
+//            <a href="javascript:void(0);" onclick="navigateTo('curriculum')">커리큘럼</a>
+//            <a href="javascript:void(0);" onclick="navigateTo('offline')">오프라인</a>
+//            <a href="javascript:void(0);" onclick="navigateTo('certification')">인증과정</a>
+//            <a href="javascript:void(0);" onclick="navigateTo('seminar')">세미나</a>
         </nav>
     `;
     navbar.appendChild(secondRow);

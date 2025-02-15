@@ -1,49 +1,9 @@
 
-### ec2에서 실행시
-#version: '3.8'
-#services:
-#  mysql:
-#    image: mysql:8.0
-#    container_name: mysql-container
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root123!
-#      MYSQL_DATABASE: ItBridge
-#    ports:
-#      - "3306:3306"
-#    networks:
-#      - backend
-#  api:
-#    image: lsyo/itbridge-api
-#    container_name: itbridge-api-container
-#    restart: always
-#    depends_on:
-#      - mysql
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/ItBridge?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
-#      SPRING_DATASOURCE_USERNAME: root
-#      SPRING_DATASOURCE_PASSWORD: root123!
-#      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - backend
-#
-#networks:
-#  backend:
-#    driver: bridge
-
-
-### 로컬에서 도커로 실행
-
-networks:
-  backend:
-volumes:
-  mysql_data:
+## ec2에서 실행시
+version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    platform: linux/arm64
     container_name: mysql-container
     restart: always
     environment:
@@ -51,29 +11,88 @@ services:
       MYSQL_DATABASE: ItBridge
     ports:
       - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./backup/itbridge_backup.sql:/docker-entrypoint-initdb.d/itbridge_backup.sql
     networks:
-      - backend
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      retries: 5
-      timeout: 5s
-
+      - app_network
+    volumes:
+          - mysql_data:/var/lib/mysql
+          - ./backup/itbridge_backup.sql:/docker-entrypoint-initdb.d/itbridge_backup.sql
   api:
     image: lsyo/itbridge-api
     container_name: itbridge-api-container
     restart: always
     depends_on:
-      mysql:
-        condition: service_healthy
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/ItBridge?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/ItBridge?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123!
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
     ports:
       - "8080:8080"
     networks:
-      - backend
+      - app_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-container
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api
+    volumes:
+      - ./It-Brige/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt
+    networks:
+     - app_network
+
+
+networks:
+  backend:
+    driver: bridge
+
+
+### 로컬에서 도커로 실행
+
+#networks:
+#  backend:
+#volumes:
+#  mysql_data:
+#services:
+#  mysql:
+#    image: mysql:8.0
+#    platform: linux/arm64
+#    container_name: mysql-container
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root123!
+#      MYSQL_DATABASE: ItBridge
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#      - ./backup/itbridge_backup.sql:/docker-entrypoint-initdb.d/itbridge_backup.sql
+#    networks:
+#      - backend
+#    healthcheck:
+#      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+#      interval: 10s
+#      retries: 5
+#      timeout: 5s
+#
+#  api:
+#    image: lsyo/itbridge-api
+#    container_name: itbridge-api-container
+#    restart: always
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/ItBridge?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root123!
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - backend

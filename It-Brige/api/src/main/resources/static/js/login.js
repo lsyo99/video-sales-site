@@ -62,7 +62,7 @@ loginForm.addEventListener('submit', async (e) => {
         console.log("로그인 성공, 리프레시 토큰은", userData.refresh_token);
         sessionStorage.setItem('accessToken', userData.access_token);
                 console.log("로그인 성공, 엑세스 토큰은", userData.access_token);
-        const checkaccesstoken = sessionStorage.getItem('accessToken');
+//        const checkaccesstoken = sessionStorage.getItem('accessToken');
 //        if(!checkaccesstoken){
 //         throw new Error('로그인 응답 데이터가 올바르지 않습니다.');
 //        }
